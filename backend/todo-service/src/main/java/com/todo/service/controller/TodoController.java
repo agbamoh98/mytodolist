@@ -29,7 +29,7 @@ public class TodoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Todo> getTodoById(@PathVariable Long id, @RequestParam("userId") String userId) {
+    public ResponseEntity<Todo> getTodoById(@PathVariable("id") Long id, @RequestParam("userId") String userId) {
         log.info("GET /api/todos/{} - userId: {}", id, userId);
         return todoService.getTodoById(id, userId)
                 .map(ResponseEntity::ok)
@@ -37,14 +37,14 @@ public class TodoController {
     }
 
     @GetMapping("/status/{completed}")
-    public ResponseEntity<List<Todo>> getTodosByStatus(@PathVariable boolean completed, @RequestParam("userId") String userId) {
+    public ResponseEntity<List<Todo>> getTodosByStatus(@PathVariable("completed") boolean completed, @RequestParam("userId") String userId) {
         log.info("GET /api/todos/status/{} - userId: {}", completed, userId);
         List<Todo> todos = todoService.getTodosByStatus(userId, completed);
         return ResponseEntity.ok(todos);
     }
 
     @GetMapping("/priority/{priority}")
-    public ResponseEntity<List<Todo>> getTodosByPriority(@PathVariable Todo.Priority priority, @RequestParam("userId") String userId) {
+    public ResponseEntity<List<Todo>> getTodosByPriority(@PathVariable("priority") Todo.Priority priority, @RequestParam("userId") String userId) {
         log.info("GET /api/todos/priority/{} - userId: {}", priority, userId);
         List<Todo> todos = todoService.getTodosByPriority(userId, priority);
         return ResponseEntity.ok(todos);
@@ -75,7 +75,7 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Todo> updateTodo(@PathVariable Long id, @Valid @RequestBody Todo todoDetails, @RequestParam("userId") String userId) {
+    public ResponseEntity<Todo> updateTodo(@PathVariable("id") Long id, @Valid @RequestBody Todo todoDetails, @RequestParam("userId") String userId) {
         log.info("PUT /api/todos/{} - userId: {}", id, userId);
         return todoService.updateTodo(id, todoDetails, userId)
                 .map(ResponseEntity::ok)
@@ -83,7 +83,7 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTodo(@PathVariable Long id, @RequestParam("userId") String userId) {
+    public ResponseEntity<Void> deleteTodo(@PathVariable("id") Long id, @RequestParam("userId") String userId) {
         log.info("DELETE /api/todos/{} - userId: {}", id, userId);
         boolean deleted = todoService.deleteTodo(id, userId);
         if (deleted) {
@@ -94,7 +94,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}/toggle")
-    public ResponseEntity<Void> toggleTodoStatus(@PathVariable Long id, @RequestParam("userId") String userId) {
+    public ResponseEntity<Void> toggleTodoStatus(@PathVariable("id") Long id, @RequestParam("userId") String userId) {
         log.info("PATCH /api/todos/{}/toggle - userId: {}", id, userId);
         boolean toggled = todoService.toggleTodoStatus(id, userId);
         if (toggled) {

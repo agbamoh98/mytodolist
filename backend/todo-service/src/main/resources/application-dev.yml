@@ -14,6 +14,11 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
+# JWT Configuration
+jwt:
+  secret: myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong
+  expiration: 86400000 # 24 hours
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
