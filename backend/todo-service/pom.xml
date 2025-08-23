@@ -6,15 +6,23 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.todo</groupId>
-        <artifactId>todo-parent</artifactId>
-        <version>1.0.0</version>
-        <relativePath>../todo-parent</relativePath>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+        <relativePath/>
     </parent>
 
+    <groupId>com.todo</groupId>
     <artifactId>todo-service</artifactId>
+    <version>1.0.0</version>
     <name>Todo Service</name>
     <description>Core todo service for managing todo items</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <!-- Spring Boot Starter Web -->
