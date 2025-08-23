@@ -5,11 +5,24 @@ import { useAuth } from './context/AuthContext'
 // Your backend API URL
 const API_BASE_URL = 'http://localhost:8081/api/todos'
 
+// Define Todo type
+interface Todo {
+  id: number
+  title: string
+  description?: string
+  completed: boolean
+  userId: string
+  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
+  dueDate?: string
+  createdAt: string
+  updatedAt: string
+}
+
 function App() {
   const { user, logout } = useAuth()
   
   // Our first state: a list of todos (now from backend)
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState<Todo[]>([])
   
   // Second state: what the user is currently typing
   const [newTodo, setNewTodo] = useState("")
@@ -36,7 +49,7 @@ function App() {
       console.log('First todo structure:', response.data[0]) // Debug: check first todo structure
       console.log('First todo ID:', response.data[0]?.id) // Debug: check ID specifically
       setTodos(response.data)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching todos:', error)
       console.error('Error details:', error.response?.data) // More detailed error
       // Keep empty array if error
@@ -74,7 +87,7 @@ function App() {
         setNewTodoPriority('MEDIUM') // Reset priority
         setNewTodoDueDate('') // Reset due date
         setShowAdvancedForm(false) // Hide advanced form
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error creating todo:', error)
         console.error('Error details:', error.response?.data)
       }
@@ -82,7 +95,7 @@ function App() {
   }
 
   // Function to delete a todo
-  const deleteTodo = async (indexToDelete) => {
+  const deleteTodo = async (indexToDelete: number) => {
     const todoToDelete = todos[indexToDelete]
     console.log('Todo to delete:', todoToDelete) // Debug log
     console.log('Todo ID:', todoToDelete?.id) // Debug log
@@ -99,14 +112,14 @@ function App() {
       
       // Refresh the todo list from backend
       fetchTodos()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting todo:', error)
       console.error('Error details:', error.response?.data)
     }
   }
 
   // Function to toggle todo completion
-  const toggleTodo = async (indexToToggle) => {
+  const toggleTodo = async (indexToToggle: number) => {
     const todoToToggle = todos[indexToToggle]
     console.log('Todo to toggle:', todoToToggle) // Debug log
     console.log('Todo ID:', todoToToggle?.id) // Debug log
@@ -123,7 +136,7 @@ function App() {
       
       // Refresh the todo list from backend
       fetchTodos()
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error toggling todo:', error)
       console.error('Error details:', error.response?.data)
     }
@@ -149,7 +162,7 @@ function App() {
   })
 
   // Helper functions
-  const getPriorityColor = (priority) => {
+  const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'LOW': return 'bg-green-100 text-green-800 border-green-200'
       case 'MEDIUM': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
@@ -159,7 +172,7 @@ function App() {
     }
   }
 
-  const getPriorityIcon = (priority) => {
+  const getPriorityIcon = (priority: string) => {
     switch (priority) {
       case 'LOW': return '🟢'
       case 'MEDIUM': return '🟡'
@@ -169,7 +182,7 @@ function App() {
     }
   }
 
-  const formatDueDate = (dueDate) => {
+  const formatDueDate = (dueDate: string | null | undefined) => {
     if (!dueDate) return null
     const date = new Date(dueDate)
     const now = new Date()
@@ -421,7 +434,7 @@ function App() {
                       >
                         {todo.title}
                       </p>
-                    </div>
+      </div>
                     
                     {/* Delete button */}
                     <button
@@ -430,7 +443,7 @@ function App() {
                       title="Delete todo"
                     >
                       🗑️
-                    </button>
+        </button>
                   </div>
                 </div>
               )

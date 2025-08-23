@@ -5,7 +5,7 @@ import Register from './Register'
 import App from '../App'
 
 const AuthWrapper: React.FC = () => {
-  const { isAuthenticated, login, user } = useAuth()
+  const { isAuthenticated, login } = useAuth()
   const [showRegister, setShowRegister] = useState(false)
 
   if (isAuthenticated) {
