@@ -1,10 +1,10 @@
 # Production Profile Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://aws-1-eu-west-1.pooler.supabase.com:6543/postgres
-    username: postgres.audjuuqtyfwharjbazmx
-    password: 519518517516
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:tododb}?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=false
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:1234}
+    driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 5
       connection-timeout: 20000
@@ -16,6 +16,11 @@ spring:
       hibernate:
         format_sql: false
         dialect: org.hibernate.dialect.MySQL8Dialect
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours
 
 logging:
   level:
