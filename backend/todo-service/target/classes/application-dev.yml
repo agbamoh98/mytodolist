@@ -1,9 +1,9 @@
 # Development Profile Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/tododb
-    username: postgres
-    password: 1234
+    url: jdbc:postgresql://aws-1-eu-west-1.pooler.supabase.com:5432/postgres
+    username: postgres.audjuuqtyfwharjbazmx
+    password: 519518517516
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
