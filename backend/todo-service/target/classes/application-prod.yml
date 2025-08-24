@@ -1,8 +1,8 @@
 # Production Profile Configuration
 spring:
   datasource:
-    url: jdbc:postgresql://db.audjuuqtyfwharjbazmx.supabase.co:5432/postgres
-    username: postgres
+    url: jdbc:postgresql://aws-1-eu-west-1.pooler.supabase.com:6543/postgres
+    username: postgres.audjuuqtyfwharjbazmx
     password: mohamad123
     driver-class-name: org.postgresql.Driver
     hikari:
