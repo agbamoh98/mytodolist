@@ -1,18 +1,13 @@
 # Production Profile Configuration
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://db.audjuuqtyfwharjbazmx.supabase.co:5432/postgres?sslmode=require&sslcert=&sslkey=&sslrootcert=}
+    url: jdbc:postgresql://db.audjuuqtyfwharjbazmx.supabase.co:5432/postgres
     username: postgres
     password: mohamad123
     driver-class-name: org.postgresql.Driver
     hikari:
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-      maximum-pool-size: 10
-      minimum-idle: 5
-      pool-name: HikariCP
-      connection-test-query: SELECT 1
+      maximum-pool-size: 5
+      connection-timeout: 20000
   jpa:
     hibernate:
       ddl-auto: validate
