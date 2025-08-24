@@ -21,41 +21,78 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public AuthResponse register(RegisterRequest request) {
+        log.info("=== STARTING USER REGISTRATION ===");
         log.info("Registering new user: {}", request.getUsername());
+        log.info("Email: {}", request.getEmail());
+        log.info("First Name: {}", request.getFirstName());
+        log.info("Last Name: {}", request.getLastName());
         
-        // Check if user already exists
-        if (userRepository.existsByUsername(request.getUsername())) {
-            throw new RuntimeException("Username is already taken!");
-        }
-        
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email is already in use!");
-        }
+        try {
+            // Check if user already exists
+            log.info("Checking if username exists: {}", request.getUsername());
+            boolean usernameExists = userRepository.existsByUsername(request.getUsername());
+            log.info("Username exists check result: {}", usernameExists);
+            
+            if (usernameExists) {
+                log.error("Username is already taken: {}", request.getUsername());
+                throw new RuntimeException("Username is already taken!");
+            }
+            
+            log.info("Checking if email exists: {}", request.getEmail());
+            boolean emailExists = userRepository.existsByEmail(request.getEmail());
+            log.info("Email exists check result: {}", emailExists);
+            
+            if (emailExists) {
+                log.error("Email is already in use: {}", request.getEmail());
+                throw new RuntimeException("Email is already in use!");
+            }
 
-        // Create new user
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEnabled(true);
+            // Create new user
+            log.info("Creating new User entity...");
+            User user = new User();
+            user.setUsername(request.getUsername());
+            user.setEmail(request.getEmail());
+            
+            log.info("Encoding password...");
+            String encodedPassword = passwordEncoder.encode(request.getPassword());
+            user.setPassword(encodedPassword);
+            log.info("Password encoded successfully");
+            
+            user.setFirstName(request.getFirstName());
+            user.setLastName(request.getLastName());
+            user.setEnabled(true);
+            
+            log.info("User entity created, about to save to database...");
+            log.info("User details - Username: {}, Email: {}, FirstName: {}, LastName: {}, Enabled: {}", 
+                user.getUsername(), user.getEmail(), user.getFirstName(), user.getLastName(), user.isEnabled());
 
-        User savedUser = userRepository.save(user);
-        
-        // Generate JWT token
-        String token = jwtUtil.generateToken(savedUser.getUsername());
-        
-        log.info("User registered successfully: {}", savedUser.getUsername());
-        
-        return new AuthResponse(
-            token,
-            savedUser.getId(),
-            savedUser.getUsername(),
-            savedUser.getEmail(),
-            savedUser.getFirstName(),
-            savedUser.getLastName()
-        );
+            User savedUser = userRepository.save(user);
+            log.info("User saved successfully with ID: {}", savedUser.getId());
+            
+            // Generate JWT token
+            log.info("Generating JWT token...");
+            String token = jwtUtil.generateToken(savedUser.getUsername());
+            log.info("JWT token generated successfully");
+            
+            log.info("User registered successfully: {}", savedUser.getUsername());
+            log.info("=== USER REGISTRATION COMPLETED ===");
+            
+            return new AuthResponse(
+                token,
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getEmail(),
+                savedUser.getFirstName(),
+                savedUser.getLastName()
+            );
+            
+        } catch (Exception e) {
+            log.error("=== REGISTRATION FAILED ===");
+            log.error("Error during registration: {}", e.getMessage());
+            log.error("Exception type: {}", e.getClass().getSimpleName());
+            log.error("Stack trace:", e);
+            throw e;
+        }
     }
 
     public AuthResponse login(LoginRequest request) {

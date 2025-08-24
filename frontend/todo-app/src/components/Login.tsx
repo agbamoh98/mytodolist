@@ -28,7 +28,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
     setError('')
 
     try {
-      const response = await axios.post('http://localhost:8081/api/auth/login', formData)
+      const response = await axios.post('http://localhost:8080/api/auth/login', formData)
       console.log('Login successful:', response.data)
       
       // The AuthContext will handle localStorage storage

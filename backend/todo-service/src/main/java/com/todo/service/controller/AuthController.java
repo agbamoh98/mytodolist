@@ -22,13 +22,27 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+        log.info("=== REGISTER ENDPOINT CALLED ===");
+        log.info("Request received - Username: {}, Email: {}, FirstName: {}, LastName: {}", 
+            request.getUsername(), request.getEmail(), request.getFirstName(), request.getLastName());
+        
         try {
-            log.info("POST /api/auth/register - username: {}", request.getUsername());
+            log.info("Calling authService.register()...");
             AuthResponse response = authService.register(request);
+            log.info("Registration successful, returning response");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
+            log.error("=== REGISTRATION FAILED IN CONTROLLER ===");
             log.error("Registration failed: {}", e.getMessage());
+            log.error("Exception type: {}", e.getClass().getSimpleName());
             return ResponseEntity.badRequest().body(new ErrorResponse(e.getMessage()));
+        } catch (Exception e) {
+            log.error("=== UNEXPECTED ERROR IN CONTROLLER ===");
+            log.error("Unexpected error during registration: {}", e.getMessage());
+            log.error("Exception type: {}", e.getClass().getSimpleName());
+            log.error("Stack trace:", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorResponse("Internal server error: " + e.getMessage()));
         }
     }
 

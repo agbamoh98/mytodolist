@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useAuth } from './context/AuthContext'
 
 // Your backend API URL
-const API_BASE_URL = 'http://localhost:8081/api/todos'
+const API_BASE_URL = 'http://localhost:8080/api/todos'
 
 // Define Todo type
 interface Todo {
