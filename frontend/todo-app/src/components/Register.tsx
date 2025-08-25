@@ -31,7 +31,7 @@ const Register: React.FC<RegisterProps> = ({ onRegister, onSwitchToLogin }) => {
     setError('')
 
     try {
-      const response = await axios.post('http://localhost:8081/api/auth/register', formData)
+      const response = await axios.post('https://mytodolist-production.up.railway.app/api/auth/register', formData)
       console.log('Registration successful:', response.data)
       
       // The AuthContext will handle localStorage storage
