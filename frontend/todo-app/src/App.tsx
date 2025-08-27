@@ -79,7 +79,7 @@ function App() {
       }
       
       try {
-        const response = await axios.post(API_BASE_URL, newTodoItem)
+        await axios.post(API_BASE_URL, newTodoItem)
         
         // Refresh the todo list from backend
         fetchTodos()
