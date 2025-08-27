@@ -75,62 +75,93 @@ const Sidebar: React.FC = () => {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-3 sm:p-4 space-y-2">
-            {isRTL ? (
-              // RTL Layout: Text on left, icon on right
-              <>
-                <a
-                  href="#dashboard"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="flex-1 text-right">{t('sidebar.dashboard') || 'Dashboard'}</span>
-                  <span className="mr-2">🏠</span>
-                </a>
-                
-                <a
-                  href="#todos"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="flex-1 text-right">{t('sidebar.todos') || 'My Todos'}</span>
-                  <span className="mr-2">✅</span>
-                </a>
-                
-                <a
-                  href="#settings"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="flex-1 text-right">{t('sidebar.settings') || 'Settings'}</span>
-                  <span className="mr-2">⚙️</span>
-                </a>
-              </>
-            ) : (
-              // LTR Layout: Icon on left, text on right
-              <>
-                <a
-                  href="#dashboard"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="ml-2">🏠</span>
-                  <span className="flex-1 text-left">{t('sidebar.dashboard') || 'Dashboard'}</span>
-                </a>
-                
-                <a
-                  href="#todos"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="ml-2">✅</span>
-                  <span className="flex-1 text-left">{t('sidebar.todos') || 'My Todos'}</span>
-                </a>
-                
-                <a
-                  href="#settings"
-                  className="flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-                >
-                  <span className="ml-2">⚙️</span>
-                  <span className="flex-1 text-left">{t('sidebar.settings') || 'Settings'}</span>
-                </a>
-              </>
-            )}
+          <nav className={`flex-1 p-3 sm:p-4 space-y-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <a
+              href="#dashboard"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
+              }`}
+            >
+              <span>🏠</span>
+              <span 
+                className="hidden sm:inline"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.dashboard') || 'Dashboard'}
+              </span>
+              <span 
+                className="sm:hidden"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.dashboard') || 'Dashboard'}
+              </span>
+            </a>
+            
+            <a
+              href="#todos"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
+              }`}
+            >
+              <span>✅</span>
+              <span 
+                className="hidden sm:inline"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.todos') || 'My Todos'}
+              </span>
+              <span 
+                className="sm:hidden"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.todos') || 'My Todos'}
+              </span>
+            </a>
+            
+            <a
+              href="#settings"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
+              }`}
+            >
+              <span>⚙️</span>
+              <span 
+                className="hidden sm:inline"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.settings') || 'Settings'}
+              </span>
+              <span 
+                className="sm:hidden"
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
+              >
+                {t('sidebar.settings') || 'Settings'}
+              </span>
+            </a>
           </nav>
 
           {/* Language Selector */}
