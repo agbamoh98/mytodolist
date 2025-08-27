@@ -63,7 +63,7 @@ const Sidebar: React.FC = () => {
         <div className={`flex flex-col h-full ${isRTL ? 'text-right' : 'text-left'}`}>
           {/* Header */}
           <div className={`p-4 sm:p-6 border-b border-gray-200 ${isRTL ? 'text-right' : 'text-left'}`}>
-            <h2 className="text-lg sm:text-xl font-bold text-gray-800">
+            <h2 className={`text-lg sm:text-xl font-bold text-gray-800 ${isRTL ? 'text-right' : 'text-left'}`}>
               📝 {t('common.welcome') || 'Welcome'}
             </h2>
           </div>
@@ -73,40 +73,40 @@ const Sidebar: React.FC = () => {
             <a
               href="#dashboard"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3 text-right' : 'space-x-2 sm:space-x-3 text-left'
               }`}
             >
               <span>🏠</span>
-              <span className="hidden sm:inline">{t('sidebar.dashboard') || 'Dashboard'}</span>
-              <span className="sm:hidden">{t('sidebar.dashboard') || 'Dashboard'}</span>
+              <span className={`hidden sm:inline ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.dashboard') || 'Dashboard'}</span>
+              <span className={`sm:hidden ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.dashboard') || 'Dashboard'}</span>
             </a>
             
             <a
               href="#todos"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3 text-right' : 'space-x-2 sm:space-x-3 text-left'
               }`}
             >
               <span>✅</span>
-              <span className="hidden sm:inline">{t('sidebar.todos') || 'My Todos'}</span>
-              <span className="sm:hidden">{t('sidebar.todos') || 'My Todos'}</span>
+              <span className={`hidden sm:inline ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.todos') || 'My Todos'}</span>
+              <span className={`sm:hidden ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.todos') || 'My Todos'}</span>
             </a>
             
             <a
               href="#settings"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3 text-right' : 'space-x-2 sm:space-x-3 text-left'
               }`}
             >
               <span>⚙️</span>
-              <span className="hidden sm:inline">{t('sidebar.settings') || 'Settings'}</span>
-              <span className="sm:hidden">{t('sidebar.settings') || 'Settings'}</span>
+              <span className={`hidden sm:inline ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.settings') || 'Settings'}</span>
+              <span className={`sm:hidden ${isRTL ? 'text-right' : 'text-left'}`}>{t('sidebar.settings') || 'Settings'}</span>
             </a>
           </nav>
 
           {/* Language Selector */}
           <div className={`p-3 sm:p-4 border-t border-gray-200 ${isRTL ? 'text-right' : 'text-left'}`}>
-            <h3 className="text-xs sm:text-sm font-medium text-gray-600 mb-2 sm:mb-3">
+            <h3 className={`text-xs sm:text-sm font-medium text-gray-600 mb-2 sm:mb-3 ${isRTL ? 'text-right' : 'text-left'}`}>
               {t('sidebar.language') || 'Language'}
             </h3>
             <LanguageSelector />

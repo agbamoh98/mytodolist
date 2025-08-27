@@ -208,16 +208,16 @@ function App() {
         pt-16 sm:pt-8
       `}>
         <div className={`w-full max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-4 sm:p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-4 mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <div className={`flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-4 mb-6 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <h1 className={`text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent ${isRTL ? 'text-right' : 'text-left'}`}>
             📝 {t('todos.title')}
           </h1>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className={`flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto ${isRTL ? 'text-right' : 'text-left'}`}>
             <div className={`${isRTL ? 'text-right' : 'text-left'} sm:text-right`}>
-              <p className="text-sm font-medium text-gray-700">
+              <p className={`text-sm font-medium text-gray-700 ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('common.welcome')}, {user?.firstName || user?.username}! 👋
               </p>
-              <p className="text-xs text-gray-500">{user?.email}</p>
+              <p className={`text-xs text-gray-500 ${isRTL ? 'text-right' : 'text-left'}`}>{user?.email}</p>
             </div>
             <button
               onClick={logout}
@@ -229,16 +229,16 @@ function App() {
         </div>
         
         {/* Stats */}
-        <div className="mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-          <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+        <div className={`mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <div className={`text-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className="text-xl sm:text-2xl font-bold text-blue-600">{stats.total}</div>
             <div className="text-xs text-blue-700 font-medium">{t('common.all')}</div>
           </div>
-          <div className="text-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200">
+          <div className={`text-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className="text-xl sm:text-2xl font-bold text-orange-600">{stats.active}</div>
             <div className="text-xs text-orange-700 font-medium">{t('common.active')}</div>
           </div>
-          <div className="text-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200">
+          <div className={`text-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200 ${isRTL ? 'text-right' : 'text-center'}`}>
             <div className="text-xl sm:text-2xl font-bold text-green-600">{stats.completed}</div>
             <div className="text-xs text-green-700 font-medium">{t('common.completed')}</div>
           </div>
