@@ -52,6 +52,7 @@
     "todoTitle": "כותרת המשימה",
     "description": "תיאור",
     "dueDate": "תאריך יעד",
+    "dueTime": "שעת יעד",
     "priority": "עדיפות",
     "priorities": {
       "low": "נמוכה",

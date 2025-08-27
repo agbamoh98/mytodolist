@@ -52,6 +52,7 @@
     "todoTitle": "عنوان المهمة",
     "description": "الوصف",
     "dueDate": "تاريخ الاستحقاق",
+    "dueTime": "وقت الاستحقاق",
     "priority": "الأولوية",
     "priorities": {
       "low": "منخفضة",

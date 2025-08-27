@@ -52,6 +52,7 @@
     "todoTitle": "Todo Title",
     "description": "Description",
     "dueDate": "Due Date",
+    "dueTime": "Due Time",
     "priority": "Priority",
     "priorities": {
       "low": "Low",

@@ -44,6 +44,7 @@ function App() {
   const [showAdvancedForm, setShowAdvancedForm] = useState(false)
   const [newTodoPriority, setNewTodoPriority] = useState('MEDIUM')
   const [newTodoDueDate, setNewTodoDueDate] = useState('')
+  const [newTodoDueTime, setNewTodoDueTime] = useState('09:00')
 
   // Function to fetch todos from backend
   const fetchTodos = async () => {
@@ -75,7 +76,7 @@ function App() {
         completed: false,
         userId: user?.username,
         priority: newTodoPriority,
-        dueDate: newTodoDueDate ? new Date(newTodoDueDate).toISOString() : null
+        dueDate: newTodoDueDate ? new Date(`${newTodoDueDate}T${newTodoDueTime}`).toISOString() : null
       }
       
       try {
@@ -85,7 +86,8 @@ function App() {
         fetchTodos()
         setNewTodo("") // Clear the input
         setNewTodoPriority('MEDIUM') // Reset priority
-        setNewTodoDueDate('') // Reset due date
+        setNewTodoDueDate('')
+    setNewTodoDueTime('09:00') // Reset due date
         setShowAdvancedForm(false) // Hide advanced form
       } catch (error: any) {
         console.error('Error creating todo:', error)
@@ -182,7 +184,7 @@ function App() {
     const isToday = date.toDateString() === now.toDateString()
     
     return {
-      formatted: date.toLocaleDateString(),
+      formatted: `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`,
       isOverdue,
       isToday,
       className: isOverdue ? 'text-red-600 font-semibold' : isToday ? 'text-orange-600 font-semibold' : 'text-gray-600'
@@ -362,6 +364,15 @@ function App() {
                     type="date"
                     value={newTodoDueDate}
                     onChange={(e) => setNewTodoDueDate(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all duration-200"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">{t('todos.dueTime')}</label>
+                  <input
+                    type="time"
+                    value={newTodoDueTime}
+                    onChange={(e) => setNewTodoDueTime(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all duration-200"
                   />
                 </div>
