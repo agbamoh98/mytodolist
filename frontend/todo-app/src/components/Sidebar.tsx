@@ -16,7 +16,7 @@ const Sidebar: React.FC = () => {
   // Desktop sidebar should always be visible
   // Mobile sidebar should slide from the correct side
   const getSidebarClasses = () => {
-    const baseClasses = 'fixed top-0 h-full bg-white shadow-lg transition-all duration-300 w-64 sm:w-32 lg:w-64';
+    const baseClasses = 'fixed top-0 h-full bg-white shadow-lg transition-all duration-300 w-80 sm:w-48 lg:w-80';
     
     // Positioning (left/right)
     const positioning = isRTL ? 'right-0 border-l border-gray-200' : 'left-0 border-r border-gray-200';
@@ -78,7 +78,7 @@ const Sidebar: React.FC = () => {
             >
               <span>🏠</span>
               <span className="hidden sm:inline">{t('sidebar.dashboard') || 'Dashboard'}</span>
-              <span className="sm:hidden">🏠</span>
+              <span className="sm:hidden">{t('sidebar.dashboard') || 'Dashboard'}</span>
             </a>
             
             <a
@@ -89,7 +89,7 @@ const Sidebar: React.FC = () => {
             >
               <span>✅</span>
               <span className="hidden sm:inline">{t('sidebar.todos') || 'My Todos'}</span>
-              <span className="sm:hidden">✅</span>
+              <span className="sm:hidden">{t('sidebar.todos') || 'My Todos'}</span>
             </a>
             
             <a
@@ -100,7 +100,7 @@ const Sidebar: React.FC = () => {
             >
               <span>⚙️</span>
               <span className="hidden sm:inline">{t('sidebar.settings') || 'Settings'}</span>
-              <span className="sm:hidden">⚙️</span>
+              <span className="sm:hidden">{t('sidebar.settings') || 'Settings'}</span>
             </a>
           </nav>
 
