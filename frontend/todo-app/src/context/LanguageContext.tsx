@@ -35,6 +35,12 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     if (langConfig) {
       setCurrentDirection(langConfig.dir);
       setIsRTLState(langConfig.dir === 'rtl');
+      
+      // Ensure document direction is set
+      if (document.documentElement.dir !== langConfig.dir) {
+        document.documentElement.dir = langConfig.dir;
+        document.documentElement.lang = savedLang;
+      }
     }
   }, []);
 
@@ -46,6 +52,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       if (langConfig) {
         setCurrentDirection(langConfig.dir);
         setIsRTLState(langConfig.dir === 'rtl');
+        
+        // Ensure document direction is updated
+        document.documentElement.dir = langConfig.dir;
+        document.documentElement.lang = lng;
       }
     };
 
@@ -66,6 +76,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       if (langConfig) {
         setCurrentDirection(langConfig.dir);
         setIsRTLState(langConfig.dir === 'rtl');
+        
+        // Ensure document direction is updated
+        document.documentElement.dir = langConfig.dir;
+        document.documentElement.lang = language;
       }
     } catch (error) {
       console.error('Failed to change language:', error);
