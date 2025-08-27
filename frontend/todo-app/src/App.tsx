@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useAuth } from './context/AuthContext'
-import { useTranslation } from 'react-i18next'
 import { useLanguage } from './context/LanguageContext'
 import Sidebar from './components/Sidebar'
 
