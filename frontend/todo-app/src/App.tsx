@@ -309,7 +309,7 @@ function App() {
         
         {/* Input field to add new todos */}
         <div className="mb-6 space-y-3">
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               value={newTodo}
@@ -318,23 +318,25 @@ function App() {
               placeholder={t('todos.addTodo')}
               className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 backdrop-blur-sm transition-all duration-200 hover:bg-white"
             />
-            <button
-              onClick={() => setShowAdvancedForm(!showAdvancedForm)}
-              className={`px-4 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 ${
-                showAdvancedForm 
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow-md'
-              }`}
-            >
-              ⚙️
-            </button>
-            <button
-              onClick={addTodo}
-              disabled={!newTodo.trim()}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              {t('common.add')}
-            </button>
+            <div className="flex gap-2 sm:gap-3">
+              <button
+                onClick={() => setShowAdvancedForm(!showAdvancedForm)}
+                className={`px-4 py-3 rounded-xl transition-all duration-200 transform hover:scale-105 flex-1 sm:flex-none ${
+                  showAdvancedForm 
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                    : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow-md'
+                }`}
+              >
+                ⚙️
+              </button>
+              <button
+                onClick={addTodo}
+                disabled={!newTodo.trim()}
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex-1 sm:flex-none"
+              >
+                {t('common.add')}
+              </button>
+            </div>
           </div>
           
           {/* Advanced form */}
