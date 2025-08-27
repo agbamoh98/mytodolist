@@ -50,9 +50,6 @@ function App() {
     try {
       setLoading(true)
       const response = await axios.get(`${API_BASE_URL}?userId=${user?.username}`)
-      console.log('Fetched todos:', response.data) // Debug log
-      console.log('First todo structure:', response.data[0]) // Debug: check first todo structure
-      console.log('First todo ID:', response.data[0]?.id) // Debug: check ID specifically
       setTodos(response.data)
     } catch (error: any) {
       console.error('Error fetching todos:', error)
@@ -82,9 +79,7 @@ function App() {
       }
       
       try {
-        console.log('Sending todo to backend:', newTodoItem)
         const response = await axios.post(API_BASE_URL, newTodoItem)
-        console.log('Todo created:', response.data)
         
         // Refresh the todo list from backend
         fetchTodos()
@@ -102,8 +97,6 @@ function App() {
   // Function to delete a todo
   const deleteTodo = async (indexToDelete: number) => {
     const todoToDelete = todos[indexToDelete]
-    console.log('Todo to delete:', todoToDelete) // Debug log
-    console.log('Todo ID:', todoToDelete?.id) // Debug log
     
     if (!todoToDelete?.id) {
       console.error('Todo ID is missing:', todoToDelete)
@@ -111,9 +104,7 @@ function App() {
     }
     
     try {
-      console.log('Deleting todo with ID:', todoToDelete.id)
       await axios.delete(`${API_BASE_URL}/${todoToDelete.id}?userId=${user?.username}`)
-      console.log('Todo deleted successfully')
       
       // Refresh the todo list from backend
       fetchTodos()
@@ -126,8 +117,6 @@ function App() {
   // Function to toggle todo completion
   const toggleTodo = async (indexToToggle: number) => {
     const todoToToggle = todos[indexToToggle]
-    console.log('Todo to toggle:', todoToToggle) // Debug log
-    console.log('Todo ID:', todoToToggle?.id) // Debug log
     
     if (!todoToToggle?.id) {
       console.error('Todo ID is missing:', todoToToggle)
@@ -135,9 +124,7 @@ function App() {
     }
     
     try {
-      console.log('Toggling todo with ID:', todoToToggle.id)
       await axios.patch(`${API_BASE_URL}/${todoToToggle.id}/toggle?userId=${user?.username}`)
-      console.log('Todo toggled successfully')
       
       // Refresh the todo list from backend
       fetchTodos()

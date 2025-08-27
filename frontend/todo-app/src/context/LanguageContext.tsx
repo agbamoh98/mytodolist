@@ -24,6 +24,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const { i18n } = useTranslation();
   const [currentLanguage, setCurrentLanguage] = useState<string>('en');
   const [currentDirection, setCurrentDirection] = useState<string>('ltr');
+  const [isRTLState, setIsRTLState] = useState<boolean>(isRTL());
 
   // Initialize language on component mount
   useEffect(() => {
@@ -33,6 +34,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     const langConfig = supportedLanguages[savedLang as keyof typeof supportedLanguages];
     if (langConfig) {
       setCurrentDirection(langConfig.dir);
+      setIsRTLState(langConfig.dir === 'rtl');
     }
   }, []);
 
@@ -43,6 +45,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       const langConfig = supportedLanguages[lng as keyof typeof supportedLanguages];
       if (langConfig) {
         setCurrentDirection(langConfig.dir);
+        setIsRTLState(langConfig.dir === 'rtl');
       }
     };
 
@@ -62,6 +65,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       const langConfig = supportedLanguages[language as keyof typeof supportedLanguages];
       if (langConfig) {
         setCurrentDirection(langConfig.dir);
+        setIsRTLState(langConfig.dir === 'rtl');
       }
     } catch (error) {
       console.error('Failed to change language:', error);
@@ -71,7 +75,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const value: LanguageContextType = {
     currentLanguage,
     currentDirection,
-    isRTL: isRTL(),
+    isRTL: isRTLState,
     changeLanguage: handleLanguageChange,
     supportedLanguages
   };
