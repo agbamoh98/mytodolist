@@ -13,7 +13,9 @@ const Sidebar: React.FC = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
+        className={`lg:hidden fixed top-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 transition-colors ${
+          isRTL ? 'right-4' : 'left-4'
+        }`}
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -30,10 +32,11 @@ const Sidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div className={`
-        fixed top-0 h-full bg-white shadow-lg border-r border-gray-200 z-40 transition-all duration-300
-        ${isRTL ? 'right-0' : 'left-0'}
-        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-        w-64 sm:w-48 lg:w-64
+        fixed top-0 h-full bg-white shadow-lg transition-all duration-300
+        ${isRTL ? 'right-0 border-l border-gray-200' : 'left-0 border-r border-gray-200'}
+        ${isMobileOpen ? 'translate-x-0 z-50' : 'lg:translate-x-0 z-40'}
+        ${isRTL ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        w-64 sm:w-32 lg:w-64
       `}>
         <div className="flex flex-col h-full">
           {/* Header */}
@@ -47,7 +50,9 @@ const Sidebar: React.FC = () => {
           <nav className="flex-1 p-3 sm:p-4 space-y-2">
             <a
               href="#dashboard"
-              className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+              }`}
             >
               <span>🏠</span>
               <span className="hidden sm:inline">{t('sidebar.dashboard') || 'Dashboard'}</span>
@@ -56,7 +61,9 @@ const Sidebar: React.FC = () => {
             
             <a
               href="#todos"
-              className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+              }`}
             >
               <span>✅</span>
               <span className="hidden sm:inline">{t('sidebar.todos') || 'My Todos'}</span>
@@ -65,7 +72,9 @@ const Sidebar: React.FC = () => {
             
             <a
               href="#settings"
-              className="flex items-center space-x-2 sm:space-x-3 px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base"
+              className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
+                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+              }`}
             >
               <span>⚙️</span>
               <span className="hidden sm:inline">{t('sidebar.settings') || 'Settings'}</span>

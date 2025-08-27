@@ -203,9 +203,9 @@ function App() {
       
       {/* Main Content */}
       <div className={`
-        p-4 sm:p-6 lg:p-8 transition-all duration-300
-        ${isRTL ? 'mr-0 sm:mr-48 lg:mr-64' : 'ml-0 sm:ml-48 lg:ml-64'}
-        pt-20 sm:pt-8
+        p-4 sm:p-6 lg:p-8 transition-all duration-300 overflow-x-hidden
+        ${isRTL ? 'mr-0 sm:mr-32 lg:mr-64' : 'ml-0 sm:ml-32 lg:ml-64'}
+        pt-16 sm:pt-8
       `}>
         <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-6">
         <div className="flex justify-between items-center mb-6">

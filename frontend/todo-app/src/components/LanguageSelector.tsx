@@ -4,7 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const LanguageSelector: React.FC = () => {
   const { t } = useTranslation();
-  const { currentLanguage, changeLanguage, supportedLanguages } = useLanguage();
+  const { currentLanguage, changeLanguage, supportedLanguages, isRTL } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLanguageChange = async (language: string) => {
@@ -43,7 +43,9 @@ const LanguageSelector: React.FC = () => {
 
       {/* Language Dropdown */}
       {isOpen && (
-        <div className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className={`absolute bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto min-w-full ${
+          isRTL ? 'bottom-full right-0 mb-2' : 'bottom-full left-0 mb-2'
+        }`}>
           {Object.entries(supportedLanguages).map(([code, config]) => (
             <button
               key={code}
