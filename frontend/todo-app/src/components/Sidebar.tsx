@@ -60,16 +60,16 @@ const Sidebar: React.FC = () => {
 
       {/* Sidebar */}
       <div className={getSidebarClasses()}>
-        <div className="flex flex-col h-full">
+        <div className={`flex flex-col h-full ${isRTL ? 'text-right' : 'text-left'}`}>
           {/* Header */}
-          <div className="p-4 sm:p-6 border-b border-gray-200">
+          <div className={`p-4 sm:p-6 border-b border-gray-200 ${isRTL ? 'text-right' : 'text-left'}`}>
             <h2 className="text-lg sm:text-xl font-bold text-gray-800">
               📝 {t('common.welcome') || 'Welcome'}
             </h2>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-3 sm:p-4 space-y-2">
+          <nav className={`flex-1 p-3 sm:p-4 space-y-2 ${isRTL ? 'text-right' : 'text-left'}`}>
             <a
               href="#dashboard"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
@@ -105,7 +105,7 @@ const Sidebar: React.FC = () => {
           </nav>
 
           {/* Language Selector */}
-          <div className="p-3 sm:p-4 border-t border-gray-200">
+          <div className={`p-3 sm:p-4 border-t border-gray-200 ${isRTL ? 'text-right' : 'text-left'}`}>
             <h3 className="text-xs sm:text-sm font-medium text-gray-600 mb-2 sm:mb-3">
               {t('sidebar.language') || 'Language'}
             </h3>

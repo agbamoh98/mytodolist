@@ -207,13 +207,13 @@ function App() {
         ${isRTL ? 'mr-0 sm:mr-48 lg:mr-80' : 'ml-0 sm:ml-48 lg:ml-80'}
         pt-16 sm:pt-8
       `}>
-        <div className="w-full max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-4 sm:p-6">
+        <div className={`w-full max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-4 sm:p-6 ${isRTL ? 'text-right' : 'text-left'}`}>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-4 mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             📝 {t('todos.title')}
           </h1>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-            <div className="text-left sm:text-right">
+            <div className={`${isRTL ? 'text-right' : 'text-left'} sm:text-right`}>
               <p className="text-sm font-medium text-gray-700">
                 {t('common.welcome')}, {user?.firstName || user?.username}! 👋
               </p>

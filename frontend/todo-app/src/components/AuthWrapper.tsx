@@ -27,15 +27,19 @@ const AuthWrapper: React.FC = () => {
         pt-16 sm:pt-8
       `}>
         {showRegister ? (
-          <Register
-            onRegister={login}
-            onSwitchToLogin={() => setShowRegister(false)}
-          />
+          <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
+            <Register
+              onRegister={login}
+              onSwitchToLogin={() => setShowRegister(false)}
+            />
+          </div>
         ) : (
-          <Login
-            onLogin={login}
-            onSwitchToRegister={() => setShowRegister(true)}
-          />
+          <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
+            <Login
+              onLogin={login}
+              onSwitchToRegister={() => setShowRegister(true)}
+            />
+          </div>
         )}
       </div>
     </div>
