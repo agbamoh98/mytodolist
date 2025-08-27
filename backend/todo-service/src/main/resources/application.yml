@@ -5,7 +5,7 @@ spring:
   application:
     name: todo-service
   profiles:
-    active: dev
+    active: prod
   mail:
     host: smtp.gmail.com
     port: 587

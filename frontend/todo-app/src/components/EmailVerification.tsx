@@ -5,13 +5,15 @@ import axios from 'axios'
 interface EmailVerificationProps {
   email: string
   username: string
-  onVerificationComplete: () => void
+  registerData: any
+  onVerificationComplete: (userData: any) => void
   onResendCode: () => void
 }
 
 const EmailVerification: React.FC<EmailVerificationProps> = ({ 
   email, 
   username, 
+  registerData,
   onVerificationComplete, 
   onResendCode 
 }) => {
@@ -29,14 +31,15 @@ const EmailVerification: React.FC<EmailVerificationProps> = ({
     setSuccess('')
 
     try {
-      const response = await axios.post('https://mytodolist-production.up.railway.app/api/auth/verify-email', {
+      const response = await axios.post('https://mytodolist-production.up.railway.app/api/auth/complete-registration', {
         email,
-        code: verificationCode
+        code: verificationCode,
+        registerData
       })
       
       setSuccess(t('auth.emailVerifiedSuccess'))
       setTimeout(() => {
-        onVerificationComplete()
+        onVerificationComplete(response.data)
       }, 2000)
     } catch (error: any) {
       console.error('Email verification failed:', error)

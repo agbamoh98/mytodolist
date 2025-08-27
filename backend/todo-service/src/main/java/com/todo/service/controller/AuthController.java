@@ -3,6 +3,7 @@ package com.todo.service.controller;
 import com.todo.service.dto.AuthResponse;
 import com.todo.service.dto.LoginRequest;
 import com.todo.service.dto.RegisterRequest;
+import com.todo.service.repository.UserRepository;
 import com.todo.service.service.AuthService;
 import com.todo.service.service.VerificationService;
 import jakarta.validation.Valid;
@@ -21,6 +22,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final VerificationService verificationService;
+    private final UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
@@ -29,15 +31,21 @@ public class AuthController {
             request.getUsername(), request.getEmail(), request.getFirstName(), request.getLastName());
         
         try {
-            log.info("Calling authService.register()...");
-            AuthResponse response = authService.register(request);
+            // Check if user already exists
+            if (userRepository.existsByUsername(request.getUsername())) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Username is already taken!"));
+            }
             
-            // Send verification email
+            if (userRepository.existsByEmail(request.getEmail())) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Email is already in use!"));
+            }
+            
+            // Send verification email without creating user
             log.info("Sending verification email to: {}", request.getEmail());
             verificationService.sendEmailVerificationCode(request.getEmail(), request.getUsername());
             
-            log.info("Registration successful, verification email sent, returning response");
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            log.info("Verification email sent successfully");
+            return ResponseEntity.ok(new MessageResponse("Verification email sent. Please check your email and enter the code to complete registration."));
         } catch (RuntimeException e) {
             log.error("=== REGISTRATION FAILED IN CONTROLLER ===");
             log.error("Registration failed: {}", e.getMessage());
@@ -77,6 +85,31 @@ public class AuthController {
         } catch (Exception e) {
             log.error("Email verification failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body(new ErrorResponse("Email verification failed"));
+        }
+    }
+
+    @PostMapping("/complete-registration")
+    public ResponseEntity<?> completeRegistration(@RequestBody CompleteRegistrationRequest request) {
+        try {
+            // Verify the email code first
+            boolean verified = verificationService.verifyCode(request.getEmail(), request.getCode(), 
+                com.todo.service.entity.VerificationCode.CodeType.EMAIL_VERIFICATION);
+            
+            if (!verified) {
+                return ResponseEntity.badRequest().body(new ErrorResponse("Invalid or expired verification code"));
+            }
+            
+            // Create the user
+            AuthResponse response = authService.register(request.getRegisterData());
+            
+            // Mark verification code as used
+            verificationService.markAllCodesAsUsed(request.getEmail(), 
+                com.todo.service.entity.VerificationCode.CodeType.EMAIL_VERIFICATION);
+            
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            log.error("Complete registration failed: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorResponse("Registration completion failed"));
         }
     }
 
@@ -164,6 +197,19 @@ public class AuthController {
         public void setCode(String code) { this.code = code; }
         public String getNewPassword() { return newPassword; }
         public void setNewPassword(String newPassword) { this.newPassword = newPassword; }
+    }
+
+    public static class CompleteRegistrationRequest {
+        private String email;
+        private String code;
+        private RegisterRequest registerData;
+        
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getCode() { return code; }
+        public void setCode(String code) { this.code = code; }
+        public RegisterRequest getRegisterData() { return registerData; }
+        public void setRegisterData(RegisterRequest registerData) { this.registerData = registerData; }
     }
 
     public static class MessageResponse {

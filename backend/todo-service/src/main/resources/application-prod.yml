@@ -1,33 +1,22 @@
-# Production Profile Configuration (Railway MySQL) - Data Persistence Test
 spring:
-  datasource:
-    url: jdbc:mysql://turntable.proxy.rlwy.net:51303/railway?useSSL=true&serverTimezone=UTC&allowPublicKeyRetrieval=false&requireSSL=true
-    username: root
-    password: bjfZPTxCzSCuRZBzngcGXMsgtQkrnUZb
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 10
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: agbamoh@gmail.com
+    password: yqorlytumeirkehi
     properties:
-      hibernate:
-        format_sql: false
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        jdbc:
-          time_zone: UTC
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 
-# JWT Configuration
-jwt:
-  secret: myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong
-  expiration: 86400000 # 24 hours
-
-logging:
-  level:
-    com.todo: INFO
-    org.springframework.web: INFO
-    org.hibernate.SQL: WARN
+app:
+  email:
+    from: agbamoh@gmail.com
+    verification:
+      code-expiry-minutes: 15
+    reminder:
+      hours-before: 24

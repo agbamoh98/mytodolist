@@ -18,6 +18,7 @@ const AuthWrapper: React.FC = () => {
   const [verificationData, setVerificationData] = useState<{
     email: string
     username: string
+    registerData: any
   } | null>(null)
 
   if (isAuthenticated) {
@@ -49,7 +50,8 @@ const AuthWrapper: React.FC = () => {
               onRegister={(userData) => {
                 setVerificationData({
                   email: userData.email,
-                  username: userData.username
+                  username: userData.username,
+                  registerData: userData
                 })
                 setCurrentView('emailVerification')
               }}
@@ -61,9 +63,10 @@ const AuthWrapper: React.FC = () => {
             <EmailVerification
               email={verificationData.email}
               username={verificationData.username}
-              onVerificationComplete={() => {
+              registerData={verificationData.registerData}
+              onVerificationComplete={(userData) => {
                 setVerificationData(null)
-                setCurrentView('login')
+                login(userData) // Log the user in after successful verification
               }}
               onResendCode={() => {
                 // The EmailVerification component handles resending internally

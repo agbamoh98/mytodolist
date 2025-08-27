@@ -53,6 +53,8 @@ const Register: React.FC<RegisterProps> = ({ onRegister, onSwitchToLogin }) => {
       })
     } catch (error: any) {
       console.error('Registration failed:', error)
+      console.error('Error response:', error.response?.data)
+      console.error('Error status:', error.response?.status)
       setError(error.response?.data?.message || t('auth.registerError'))
     } finally {
       setLoading(false)
