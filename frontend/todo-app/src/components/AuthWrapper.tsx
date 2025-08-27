@@ -11,10 +11,6 @@ const AuthWrapper: React.FC = () => {
   const { isRTL } = useLanguage()
   const [showRegister, setShowRegister] = useState(false)
 
-  // Debug logging
-  console.log('AuthWrapper render - isAuthenticated:', isAuthenticated);
-  console.log('AuthWrapper render - isRTL:', isRTL);
-
   if (isAuthenticated) {
     return <App />
   }
@@ -22,11 +18,14 @@ const AuthWrapper: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Sidebar */}
-      <div className="bg-blue-500 p-2 text-white">DEBUG: Sidebar should be here</div>
       <Sidebar />
       
       {/* Main Content */}
-      <div className={`${isRTL ? 'mr-64' : 'ml-64'} p-8`}>
+      <div className={`
+        p-4 sm:p-6 lg:p-8 transition-all duration-300
+        ${isRTL ? 'mr-0 sm:mr-48 lg:mr-64' : 'ml-0 sm:ml-48 lg:ml-64'}
+        pt-20 sm:pt-8
+      `}>
         {showRegister ? (
           <Register
             onRegister={login}
