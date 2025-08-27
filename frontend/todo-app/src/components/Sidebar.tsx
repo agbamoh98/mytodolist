@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageSelector from './LanguageSelector';
@@ -7,6 +7,11 @@ const Sidebar: React.FC = () => {
   const { t } = useTranslation();
   const { isRTL } = useLanguage();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+
+  // Reset mobile menu state when language direction changes
+  useEffect(() => {
+    setIsMobileOpen(false);
+  }, [isRTL]);
 
   return (
     <>
@@ -35,7 +40,10 @@ const Sidebar: React.FC = () => {
         fixed top-0 h-full bg-white shadow-lg transition-all duration-300
         ${isRTL ? 'right-0 border-l border-gray-200' : 'left-0 border-r border-gray-200'}
         ${isMobileOpen ? 'translate-x-0 z-50' : 'lg:translate-x-0 z-40'}
-        ${isRTL ? 'translate-x-full lg:translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${isRTL 
+          ? 'translate-x-full lg:translate-x-0' 
+          : '-translate-x-full lg:translate-x-0'
+        }
         w-64 sm:w-32 lg:w-64
       `}>
         <div className="flex flex-col h-full">
