@@ -5,9 +5,10 @@ import axios from 'axios'
 interface LoginProps {
   onLogin: (userData: any) => void
   onSwitchToRegister: () => void
+  onForgotPassword: () => void
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
+const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister, onForgotPassword }) => {
   const { t } = useTranslation()
   const [formData, setFormData] = useState({
     usernameOrEmail: '',
@@ -87,6 +88,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
             className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 transition-all duration-200 hover:bg-white"
             placeholder={t('auth.passwordPlaceholder')}
           />
+        </div>
+
+        <div className="text-right">
+          <button
+            type="button"
+            onClick={onForgotPassword}
+            className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+          >
+            {t('auth.forgotPassword')}
+          </button>
         </div>
 
         <button

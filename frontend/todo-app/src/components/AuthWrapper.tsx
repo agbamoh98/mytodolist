@@ -3,13 +3,22 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 import Login from './Login'
 import Register from './Register'
+import EmailVerification from './EmailVerification'
+import ForgotPassword from './ForgotPassword'
+import PasswordReset from './PasswordReset'
 import App from '../App'
 import Sidebar from './Sidebar'
+
+type AuthView = 'login' | 'register' | 'emailVerification' | 'forgotPassword' | 'passwordReset'
 
 const AuthWrapper: React.FC = () => {
   const { isAuthenticated, login } = useAuth()
   const { isRTL } = useLanguage()
-  const [showRegister, setShowRegister] = useState(false)
+  const [currentView, setCurrentView] = useState<AuthView>('login')
+  const [verificationData, setVerificationData] = useState<{
+    email: string
+    username: string
+  } | null>(null)
 
   if (isAuthenticated) {
     return <App />
@@ -26,21 +35,67 @@ const AuthWrapper: React.FC = () => {
         ${isRTL ? 'mr-0 sm:mr-48 lg:mr-80' : 'ml-0 sm:ml-48 lg:ml-80'}
         pt-16 sm:pt-8
       `}>
-        {showRegister ? (
-          <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
-            <Register
-              onRegister={login}
-              onSwitchToLogin={() => setShowRegister(false)}
-            />
-          </div>
-        ) : (
-          <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
+        <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
+          {currentView === 'login' && (
             <Login
               onLogin={login}
-              onSwitchToRegister={() => setShowRegister(true)}
+              onSwitchToRegister={() => setCurrentView('register')}
+              onForgotPassword={() => setCurrentView('forgotPassword')}
             />
-          </div>
-        )}
+          )}
+          
+          {currentView === 'register' && (
+            <Register
+              onRegister={(userData) => {
+                setVerificationData({
+                  email: userData.email,
+                  username: userData.username
+                })
+                setCurrentView('emailVerification')
+              }}
+              onSwitchToLogin={() => setCurrentView('login')}
+            />
+          )}
+          
+          {currentView === 'emailVerification' && verificationData && (
+            <EmailVerification
+              email={verificationData.email}
+              username={verificationData.username}
+              onVerificationComplete={() => {
+                setVerificationData(null)
+                setCurrentView('login')
+              }}
+              onResendCode={() => {
+                // The EmailVerification component handles resending internally
+              }}
+            />
+          )}
+          
+          {currentView === 'forgotPassword' && (
+            <ForgotPassword
+              onBackToLogin={() => setCurrentView('login')}
+              onCodeSent={(email, username) => {
+                setVerificationData({ email, username })
+                setCurrentView('passwordReset')
+              }}
+            />
+          )}
+          
+          {currentView === 'passwordReset' && verificationData && (
+            <PasswordReset
+              email={verificationData.email}
+              username={verificationData.username}
+              onResetComplete={() => {
+                setVerificationData(null)
+                setCurrentView('login')
+              }}
+              onBackToLogin={() => {
+                setVerificationData(null)
+                setCurrentView('login')
+              }}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
