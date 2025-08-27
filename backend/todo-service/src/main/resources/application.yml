@@ -20,3 +20,28 @@ logging:
   level:
     com.todo: DEBUG
     org.springframework.web: DEBUG
+
+# Email Configuration
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME:}
+    password: ${EMAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+# Email settings
+app:
+  email:
+    from: ${EMAIL_FROM:your-app@example.com}
+    verification:
+      code-expiry-minutes: 15
+    reminder:
+      hours-before: 24

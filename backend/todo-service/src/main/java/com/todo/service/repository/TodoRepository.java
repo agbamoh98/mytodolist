@@ -27,4 +27,8 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
                                    @Param("endDate") LocalDateTime endDate);
 
     long countByUserIdAndCompleted(String userId, boolean completed);
+
+    @Query("SELECT t FROM Todo t WHERE t.dueDate BETWEEN :startTime AND :endTime AND t.completed = false")
+    List<Todo> findTodosDueBetween(@Param("startTime") LocalDateTime startTime, 
+                                  @Param("endTime") LocalDateTime endTime);
 }

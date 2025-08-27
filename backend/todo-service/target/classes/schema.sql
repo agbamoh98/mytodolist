@@ -42,6 +42,23 @@ CREATE TABLE IF NOT EXISTS todos (
     INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Create verification_codes table
+CREATE TABLE IF NOT EXISTS verification_codes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    code VARCHAR(10) NOT NULL,
+    type ENUM('EMAIL_VERIFICATION', 'PASSWORD_RESET') NOT NULL,
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+    expires_at DATETIME NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    
+    INDEX idx_email (email),
+    INDEX idx_code (code),
+    INDEX idx_type (type),
+    INDEX idx_expires_at (expires_at),
+    INDEX idx_used (used)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_user_completed ON todos(user_id, completed);
 CREATE INDEX IF NOT EXISTS idx_user_priority ON todos(user_id, priority);
