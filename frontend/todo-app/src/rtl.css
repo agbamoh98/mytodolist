@@ -1,0 +1,230 @@
+/* RTL (Right-to-Left) Language Support */
+
+/* RTL Layout Adjustments */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Sidebar Adjustments */
+[dir="rtl"] .sidebar {
+  right: 0;
+  left: auto;
+}
+
+[dir="rtl"] .sidebar-content {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+/* RTL Button and Input Adjustments */
+[dir="rtl"] .btn {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .input-group {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .form-input {
+  text-align: right;
+}
+
+/* RTL Dropdown and Menu Adjustments */
+[dir="rtl"] .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+[dir="rtl"] .menu-item {
+  text-align: right;
+}
+
+/* RTL Icon Positioning */
+[dir="rtl"] .icon-left {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .icon-right {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+/* RTL Flexbox Adjustments */
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .justify-start {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .justify-end {
+  justify-content: flex-start;
+}
+
+/* RTL Text Alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+/* RTL Margin and Padding Adjustments */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* RTL Border Adjustments */
+[dir="rtl"] .border-l {
+  border-left: none;
+  border-right: 1px solid;
+}
+
+[dir="rtl"] .border-r {
+  border-right: none;
+  border-left: 1px solid;
+}
+
+/* RTL Animation Adjustments */
+[dir="rtl"] .slide-in-left {
+  animation: slideInRight 0.3s ease-out;
+}
+
+[dir="rtl"] .slide-in-right {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+/* RTL-specific animations */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* RTL Form Adjustments */
+[dir="rtl"] .form-label {
+  text-align: right;
+}
+
+[dir="rtl"] .form-error {
+  text-align: right;
+}
+
+/* RTL Navigation Adjustments */
+[dir="rtl"] .nav-item {
+  text-align: right;
+}
+
+[dir="rtl"] .nav-link {
+  padding-right: 1rem;
+  padding-left: 0;
+}
+
+/* RTL Card Adjustments */
+[dir="rtl"] .card-header {
+  text-align: right;
+}
+
+[dir="rtl"] .card-footer {
+  text-align: right;
+}
+
+/* RTL Table Adjustments */
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+  text-align: right;
+}
+
+/* RTL Modal Adjustments */
+[dir="rtl"] .modal-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .modal-footer {
+  flex-direction: row-reverse;
+}
+
+/* RTL Tooltip Adjustments */
+[dir="rtl"] .tooltip {
+  text-align: right;
+}
+
+/* RTL Progress Bar Adjustments */
+[dir="rtl"] .progress-bar {
+  direction: rtl;
+}
+
+/* RTL Switch/Toggle Adjustments */
+[dir="rtl"] .switch {
+  direction: rtl;
+}
+
+/* RTL Checkbox and Radio Adjustments */
+[dir="rtl"] .checkbox-label,
+[dir="rtl"] .radio-label {
+  flex-direction: row-reverse;
+}
+
+/* RTL Badge Adjustments */
+[dir="rtl"] .badge {
+  margin-right: 0.25rem;
+  margin-left: 0;
+}
+
+/* RTL Alert Adjustments */
+[dir="rtl"] .alert {
+  text-align: right;
+}
+
+/* RTL Breadcrumb Adjustments */
+[dir="rtl"] .breadcrumb {
+  flex-direction: row-reverse;
+}
+
+/* RTL Pagination Adjustments */
+[dir="rtl"] .pagination {
+  flex-direction: row-reverse;
+}
+
+/* RTL List Group Adjustments */
+[dir="rtl"] .list-group-item {
+  text-align: right;
+}
+
+/* RTL Accordion Adjustments */
+[dir="rtl"] .accordion-header {
+  text-align: right;
+}
+
+/* RTL Carousel Adjustments */
+[dir="rtl"] .carousel-control-prev {
+  right: 0;
+  left: auto;
+}
+
+[dir="rtl"] .carousel-control-next {
+  left: 0;
+  right: auto;
+}

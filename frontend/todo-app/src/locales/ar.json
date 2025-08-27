@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "مرحباً بك في تطبيق المهام",
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "add": "إضافة",
+    "search": "بحث",
+    "filter": "تصفية",
+    "all": "الكل",
+    "active": "نشط",
+    "completed": "مكتمل"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "تسجيل",
+    "logout": "تسجيل الخروج",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "username": "اسم المستخدم",
+    "loginSuccess": "تم تسجيل الدخول بنجاح!",
+    "registerSuccess": "تم التسجيل بنجاح!",
+    "loginError": "فشل تسجيل الدخول. حاول مرة أخرى.",
+    "registerError": "فشل التسجيل. حاول مرة أخرى."
+  },
+  "todos": {
+    "title": "المهام",
+    "addTodo": "إضافة مهمة جديدة",
+    "todoTitle": "عنوان المهمة",
+    "description": "الوصف",
+    "dueDate": "تاريخ الاستحقاق",
+    "priority": "الأولوية",
+    "priorities": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    },
+    "status": "الحالة",
+    "noTodos": "لا توجد مهام بعد. أنشئ أول مهمة لك!",
+    "completed": "مكتمل",
+    "pending": "في الانتظار"
+  },
+  "sidebar": {
+    "dashboard": "لوحة التحكم",
+    "todos": "مهامي",
+    "settings": "الإعدادات",
+    "language": "اللغة"
+  },
+  "languages": {
+    "en": "English",
+    "he": "עברית",
+    "ar": "العربية"
+  }
+}

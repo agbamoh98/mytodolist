@@ -1,3 +1,6 @@
+/* Import RTL support for Hebrew and Arabic */
+@import './rtl.css';
+
 /* Basic CSS reset and styles */
 * {
   margin: 0;

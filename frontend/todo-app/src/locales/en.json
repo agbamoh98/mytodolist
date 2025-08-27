@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "Welcome to Todo App",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "active": "Active",
+    "completed": "Completed"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "username": "Username",
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Registration successful!",
+    "loginError": "Login failed. Please try again.",
+    "registerError": "Registration failed. Please try again."
+  },
+  "todos": {
+    "title": "Todos",
+    "addTodo": "Add New Todo",
+    "todoTitle": "Todo Title",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "priority": "Priority",
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "status": "Status",
+    "noTodos": "No todos yet. Create your first one!",
+    "completed": "Completed",
+    "pending": "Pending"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "todos": "My Todos",
+    "settings": "Settings",
+    "language": "Language"
+  },
+  "languages": {
+    "en": "English",
+    "he": "עברית",
+    "ar": "العربية"
+  }
+}

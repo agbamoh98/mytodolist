@@ -1,0 +1,57 @@
+{
+  "common": {
+    "welcome": "ברוכים הבאים לאפליקציית המשימות",
+    "loading": "טוען...",
+    "save": "שמור",
+    "cancel": "ביטול",
+    "delete": "מחק",
+    "edit": "ערוך",
+    "add": "הוסף",
+    "search": "חיפוש",
+    "filter": "סינון",
+    "all": "הכל",
+    "active": "פעיל",
+    "completed": "הושלם"
+  },
+  "auth": {
+    "login": "התחברות",
+    "register": "הרשמה",
+    "logout": "התנתקות",
+    "email": "אימייל",
+    "password": "סיסמה",
+    "username": "שם משתמש",
+    "loginSuccess": "התחברות הצליחה!",
+    "registerSuccess": "הרשמה הצליחה!",
+    "loginError": "התחברות נכשלה. נסה שוב.",
+    "registerError": "הרשמה נכשלה. נסה שוב."
+  },
+  "todos": {
+    "title": "משימות",
+    "addTodo": "הוסף משימה חדשה",
+    "todoTitle": "כותרת המשימה",
+    "description": "תיאור",
+    "dueDate": "תאריך יעד",
+    "priority": "עדיפות",
+    "priorities": {
+      "low": "נמוכה",
+      "medium": "בינונית",
+      "high": "גבוהה",
+      "urgent": "דחופה"
+    },
+    "status": "סטטוס",
+    "noTodos": "אין משימות עדיין. צור את הראשונה שלך!",
+    "completed": "הושלם",
+    "pending": "ממתין"
+  },
+  "sidebar": {
+    "dashboard": "לוח בקרה",
+    "todos": "המשימות שלי",
+    "settings": "הגדרות",
+    "language": "שפה"
+  },
+  "languages": {
+    "en": "English",
+    "he": "עברית",
+    "ar": "العربية"
+  }
+}

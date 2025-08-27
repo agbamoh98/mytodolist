@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useAuth } from './context/AuthContext'
+import { useTranslation } from 'react-i18next'
+import { useLanguage } from './context/LanguageContext'
+import Sidebar from './components/Sidebar'
 
 // Your backend API URL
 const API_BASE_URL = 'https://mytodolist-production.up.railway.app/api/todos'
@@ -20,6 +23,8 @@ interface Todo {
 
 function App() {
   const { user, logout } = useAuth()
+  const { t } = useTranslation()
+  const { isRTL } = useLanguage()
   
   // Our first state: a list of todos (now from backend)
   const [todos, setTodos] = useState<Todo[]>([])
@@ -205,8 +210,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Sidebar */}
+      <Sidebar />
+      
+      {/* Main Content */}
+      <div className={`${isRTL ? 'mr-64' : 'ml-64'} p-8`}>
+        <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             📝 My Todo Management App
@@ -434,7 +444,7 @@ function App() {
                       >
                         {todo.title}
                       </p>
-      </div>
+                    </div>
                     
                     {/* Delete button */}
                     <button
@@ -443,7 +453,7 @@ function App() {
                       title="Delete todo"
                     >
                       🗑️
-        </button>
+                    </button>
                   </div>
                 </div>
               )
@@ -460,6 +470,7 @@ function App() {
             </p>
           </div>
         )}
+        </div>
       </div>
     </div>
   )
