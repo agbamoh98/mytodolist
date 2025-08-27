@@ -68,9 +68,6 @@ const AuthWrapper: React.FC = () => {
                 setVerificationData(null)
                 login(userData) // Log the user in after successful verification
               }}
-              onResendCode={() => {
-                // The EmailVerification component handles resending internally
-              }}
             />
           )}
           
@@ -78,7 +75,7 @@ const AuthWrapper: React.FC = () => {
             <ForgotPassword
               onBackToLogin={() => setCurrentView('login')}
               onCodeSent={(email, username) => {
-                setVerificationData({ email, username })
+                setVerificationData({ email, username, registerData: null })
                 setCurrentView('passwordReset')
               }}
             />
@@ -87,7 +84,6 @@ const AuthWrapper: React.FC = () => {
           {currentView === 'passwordReset' && verificationData && (
             <PasswordReset
               email={verificationData.email}
-              username={verificationData.username}
               onResetComplete={() => {
                 setVerificationData(null)
                 setCurrentView('login')

@@ -7,15 +7,13 @@ interface EmailVerificationProps {
   username: string
   registerData: any
   onVerificationComplete: (userData: any) => void
-  onResendCode: () => void
 }
 
 const EmailVerification: React.FC<EmailVerificationProps> = ({ 
   email, 
   username, 
   registerData,
-  onVerificationComplete, 
-  onResendCode 
+  onVerificationComplete
 }) => {
   const { t } = useTranslation()
   const [verificationCode, setVerificationCode] = useState('')

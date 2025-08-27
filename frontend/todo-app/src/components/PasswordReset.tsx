@@ -4,14 +4,12 @@ import axios from 'axios'
 
 interface PasswordResetProps {
   email: string
-  username: string
   onResetComplete: () => void
   onBackToLogin: () => void
 }
 
 const PasswordReset: React.FC<PasswordResetProps> = ({ 
   email, 
-  username, 
   onResetComplete, 
   onBackToLogin 
 }) => {
