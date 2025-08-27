@@ -23,7 +23,6 @@ interface Todo {
 
 function App() {
   const { user, logout } = useAuth()
-  const { t } = useTranslation()
   const { isRTL } = useLanguage()
   
   // Our first state: a list of todos (now from backend)
