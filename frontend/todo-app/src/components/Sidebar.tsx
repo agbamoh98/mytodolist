@@ -79,19 +79,27 @@ const Sidebar: React.FC = () => {
             <a
               href="#dashboard"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
               }`}
             >
               <span>🏠</span>
               <span 
                 className="hidden sm:inline"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.dashboard') || 'Dashboard'}
               </span>
               <span 
                 className="sm:hidden"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.dashboard') || 'Dashboard'}
               </span>
@@ -100,19 +108,27 @@ const Sidebar: React.FC = () => {
             <a
               href="#todos"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
               }`}
             >
               <span>✅</span>
               <span 
                 className="hidden sm:inline"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.todos') || 'My Todos'}
               </span>
               <span 
                 className="sm:hidden"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.todos') || 'My Todos'}
               </span>
@@ -121,19 +137,27 @@ const Sidebar: React.FC = () => {
             <a
               href="#settings"
               className={`flex items-center px-3 sm:px-4 py-2 sm:py-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors duration-200 text-sm sm:text-base ${
-                isRTL ? 'flex-row-reverse space-x-reverse space-x-2 sm:space-x-3' : 'space-x-2 sm:space-x-3'
+                isRTL ? 'flex-row-reverse justify-end' : 'flex-row justify-start'
               }`}
             >
               <span>⚙️</span>
               <span 
                 className="hidden sm:inline"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.settings') || 'Settings'}
               </span>
               <span 
                 className="sm:hidden"
-                style={{ textAlign: isRTL ? 'right' : 'left' }}
+                style={{ 
+                  textAlign: isRTL ? 'right' : 'left',
+                  marginLeft: isRTL ? '0' : '0.5rem',
+                  marginRight: isRTL ? '0.5rem' : '0'
+                }}
               >
                 {t('sidebar.settings') || 'Settings'}
               </span>
