@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useAuth } from './context/AuthContext'
 import { useLanguage } from './context/LanguageContext'
+import { useTranslation } from 'react-i18next'
 import Sidebar from './components/Sidebar'
 
 // Your backend API URL
@@ -23,6 +24,7 @@ interface Todo {
 function App() {
   const { user, logout } = useAuth()
   const { isRTL } = useLanguage()
+  const { t } = useTranslation()
   
   // Our first state: a list of todos (now from backend)
   const [todos, setTodos] = useState<Todo[]>([])
@@ -217,12 +219,12 @@ function App() {
         <div className="max-w-2xl mx-auto bg-white/80 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 p-6">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            📝 My Todo Management App
+            📝 {t('todos.title')}
           </h1>
           <div className="flex items-center gap-4">
             <div className="text-right">
               <p className="text-sm font-medium text-gray-700">
-                Welcome, {user?.firstName || user?.username}! 👋
+                {t('common.welcome')}, {user?.firstName || user?.username}! 👋
               </p>
               <p className="text-xs text-gray-500">{user?.email}</p>
             </div>
@@ -230,7 +232,7 @@ function App() {
               onClick={logout}
               className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
             >
-              Logout
+              {t('auth.logout')}
             </button>
           </div>
         </div>
@@ -239,15 +241,15 @@ function App() {
         <div className="mb-6 grid grid-cols-3 gap-4">
           <div className="text-center p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
             <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
-            <div className="text-xs text-blue-700 font-medium">Total</div>
+            <div className="text-xs text-blue-700 font-medium">{t('common.all')}</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-r from-orange-50 to-orange-100 rounded-lg border border-orange-200">
             <div className="text-2xl font-bold text-orange-600">{stats.active}</div>
-            <div className="text-xs text-orange-700 font-medium">Active</div>
+            <div className="text-xs text-orange-700 font-medium">{t('common.active')}</div>
           </div>
           <div className="text-center p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border border-green-200">
             <div className="text-2xl font-bold text-green-600">{stats.completed}</div>
-            <div className="text-xs text-green-700 font-medium">Completed</div>
+            <div className="text-xs text-green-700 font-medium">{t('common.completed')}</div>
           </div>
         </div>
         
@@ -260,7 +262,7 @@ function App() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search todos..."
+            placeholder={t('common.search') + '...'}
             className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 backdrop-blur-sm transition-all duration-200 hover:bg-white"
           />
           {searchTerm && (
@@ -285,7 +287,7 @@ function App() {
                   : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 shadow-sm hover:shadow-md'
               }`}
             >
-              {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+              {t(`common.${filterType}`)}
               {filterType !== 'all' && (
                 <span className="ml-1 text-xs opacity-75">
                   ({filterType === 'active' ? stats.active : stats.completed})
@@ -309,7 +311,7 @@ function App() {
                     : `${getPriorityColor(priority)} hover:shadow-md`
               }`}
             >
-              {priority === 'all' ? 'All Priorities' : `${getPriorityIcon(priority)} ${priority}`}
+              {priority === 'all' ? t('todos.priority') : `${getPriorityIcon(priority)} ${t(`todos.priorities.${priority.toLowerCase()}`)}`}
             </button>
           ))}
         </div>
@@ -322,7 +324,7 @@ function App() {
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && !showAdvancedForm && addTodo()}
-              placeholder="What needs to be done?"
+              placeholder={t('todos.addTodo')}
               className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gray-50/50 backdrop-blur-sm transition-all duration-200 hover:bg-white"
             />
             <button
@@ -340,7 +342,7 @@ function App() {
               disabled={!newTodo.trim()}
               className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
-              Add
+              {t('common.add')}
             </button>
           </div>
           
@@ -349,20 +351,20 @@ function App() {
             <div className="p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl border border-gray-200 space-y-4 animate-in slide-in-from-top duration-300">
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Priority</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">{t('todos.priority')}</label>
                   <select
                     value={newTodoPriority}
                     onChange={(e) => setNewTodoPriority(e.target.value)}
                     className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all duration-200"
                   >
-                    <option value="LOW">🟢 Low</option>
-                    <option value="MEDIUM">🟡 Medium</option>
-                    <option value="HIGH">🟠 High</option>
-                    <option value="URGENT">🔴 Urgent</option>
+                    <option value="LOW">🟢 {t('todos.priorities.low')}</option>
+                    <option value="MEDIUM">🟡 {t('todos.priorities.medium')}</option>
+                    <option value="HIGH">🟠 {t('todos.priorities.high')}</option>
+                    <option value="URGENT">🔴 {t('todos.priorities.urgent')}</option>
                   </select>
                 </div>
                 <div className="flex-1">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Due Date</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">{t('todos.dueDate')}</label>
                   <input
                     type="date"
                     value={newTodoDueDate}
@@ -380,18 +382,18 @@ function App() {
           {loading ? (
             <div className="text-center text-gray-500 py-8">
               <div className="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-blue-500 rounded-full" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">{t('common.loading')}</span>
               </div>
-              <p className="mt-2">Loading todos...</p>
+              <p className="mt-2">{t('common.loading')}...</p>
             </div>
           ) : filteredTodos.length === 0 ? (
             <div className="text-center text-gray-500 py-8">
               <div className="text-4xl mb-2">📝</div>
               <p className="text-lg font-medium">
-                {searchTerm ? 'No todos match your search.' : 'No todos yet!'}
+                {searchTerm ? t('todos.noTodos') : t('todos.noTodos')}
               </p>
               <p className="text-sm">
-                {searchTerm ? 'Try a different search term.' : 'Add your first todo above.'}
+                {searchTerm ? t('common.search') : t('todos.addTodo')}
               </p>
             </div>
           ) : (
@@ -399,7 +401,7 @@ function App() {
               const originalIndex = todos.findIndex(t => t.id === todo.id)
               const dueDateInfo = formatDueDate(todo.dueDate)
               return (
-                                <div 
+                <div 
                   key={todo.id} 
                   className={`group p-4 bg-white/70 backdrop-blur-sm rounded-xl border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 ${
                     todo.completed ? 'opacity-75' : ''
@@ -419,7 +421,7 @@ function App() {
                       <div className="flex items-center gap-2 mb-2 flex-wrap">
                         {/* Priority badge */}
                         <span className={`px-3 py-1 rounded-full text-xs font-medium border shadow-sm ${getPriorityColor(todo.priority)}`}>
-                          {getPriorityIcon(todo.priority)} {todo.priority}
+                          {getPriorityIcon(todo.priority)} {t(`todos.priorities.${todo.priority.toLowerCase()}`)}
                         </span>
                         
                         {/* Due date */}
@@ -448,7 +450,7 @@ function App() {
                     <button
                       onClick={() => deleteTodo(originalIndex)}
                       className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 hover:bg-red-50 p-2 rounded-lg transition-all duration-200 transform hover:scale-110"
-                      title="Delete todo"
+                      title={t('common.delete')}
                     >
                       🗑️
                     </button>
@@ -463,8 +465,8 @@ function App() {
         {todos.length > 0 && (
           <div className="mt-8 pt-6 border-t border-gray-200 text-center">
             <p className="text-sm text-gray-500">
-              {stats.completed > 0 && `🎉 ${stats.completed} task${stats.completed === 1 ? '' : 's'} completed! `}
-              {stats.active > 0 && `${stats.active} remaining.`}
+              {stats.completed > 0 && `🎉 ${stats.completed} ${t('common.completed')}! `}
+              {stats.active > 0 && `${stats.active} ${t('todos.pending')}.`}
             </p>
           </div>
         )}

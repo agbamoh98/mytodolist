@@ -9,7 +9,7 @@
     "add": "Add",
     "search": "Search",
     "filter": "Filter",
-    "all": "All",
+    "all": "Total",
     "active": "Active",
     "completed": "Completed"
   },
@@ -26,8 +26,8 @@
     "registerError": "Registration failed. Please try again."
   },
   "todos": {
-    "title": "Todos",
-    "addTodo": "Add New Todo",
+    "title": "My Todo Management App",
+    "addTodo": "What needs to be done?",
     "todoTitle": "Todo Title",
     "description": "Description",
     "dueDate": "Due Date",
@@ -39,9 +39,9 @@
       "urgent": "Urgent"
     },
     "status": "Status",
-    "noTodos": "No todos yet. Create your first one!",
+    "noTodos": "No todos yet!",
     "completed": "Completed",
-    "pending": "Pending"
+    "pending": "remaining"
   },
   "sidebar": {
     "dashboard": "Dashboard",
