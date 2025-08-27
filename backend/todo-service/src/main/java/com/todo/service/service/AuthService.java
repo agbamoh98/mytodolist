@@ -60,7 +60,7 @@ public class AuthService {
             
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
-            user.setEnabled(true);
+            user.setEnabled(false); // User must verify email before being enabled
             
             log.info("User entity created, about to save to database...");
             log.info("User details - Username: {}, Email: {}, FirstName: {}, LastName: {}, Enabled: {}", 

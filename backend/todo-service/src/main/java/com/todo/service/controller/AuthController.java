@@ -31,7 +31,12 @@ public class AuthController {
         try {
             log.info("Calling authService.register()...");
             AuthResponse response = authService.register(request);
-            log.info("Registration successful, returning response");
+            
+            // Send verification email
+            log.info("Sending verification email to: {}", request.getEmail());
+            verificationService.sendEmailVerificationCode(request.getEmail(), request.getUsername());
+            
+            log.info("Registration successful, verification email sent, returning response");
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (RuntimeException e) {
             log.error("=== REGISTRATION FAILED IN CONTROLLER ===");
