@@ -7,6 +7,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 @Service
 @RequiredArgsConstructor
@@ -14,9 +19,13 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     private final JavaMailSender mailSender;
+    private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${app.email.from}")
     private String fromEmail;
+    
+    @Value("${resend.api.key}")
+    private String resendApiKey;
 
     public void sendVerificationEmail(String to, String username, String verificationCode) {
         try {
@@ -37,14 +46,34 @@ public class EmailService {
     @Async
     public void sendVerificationEmailAsync(String to, String username, String verificationCode) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(to);
-            message.setSubject("Verify Your Email - Todo App");
-            message.setText(buildVerificationEmailBody(username, verificationCode));
+            // Use Resend REST API instead of SMTP
+            String url = "https://api.resend.com/emails";
             
-            mailSender.send(message);
-            log.info("Verification email sent successfully to: {}", to);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + resendApiKey);
+            
+            String emailBody = buildVerificationEmailBody(username, verificationCode);
+            
+            String requestBody = String.format("""
+                {
+                    "from": "%s",
+                    "to": ["%s"],
+                    "subject": "Verify Your Email - Todo App",
+                    "text": "%s"
+                }
+                """, fromEmail, to, emailBody.replace("\"", "\\\""));
+            
+            HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+            
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Verification email sent successfully via Resend API to: {}", to);
+            } else {
+                log.error("Failed to send email via Resend API. Status: {}, Response: {}", 
+                    response.getStatusCode(), response.getBody());
+            }
         } catch (Exception e) {
             log.error("Failed to send verification email to: {}", to, e);
             // Don't throw exception in async method, just log it

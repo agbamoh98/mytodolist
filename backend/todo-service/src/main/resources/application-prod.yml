@@ -30,11 +30,20 @@ spring:
           connectiontimeout: 10000
           ssl:
             trust: smtp.resend.com
+          # Additional Resend-specific settings
+          socketFactory:
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
 
 # JWT settings
 jwt:
   secret: ${JWT_SECRET:myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong}
   expiration: ${JWT_EXPIRATION:86400000}
+
+# Resend API configuration
+resend:
+  api:
+    key: ${RESEND_API_KEY:your-resend-api-key}
 
 app:
   email:
