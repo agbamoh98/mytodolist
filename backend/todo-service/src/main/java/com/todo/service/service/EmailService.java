@@ -3,7 +3,6 @@ package com.todo.service.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -27,20 +26,9 @@ public class EmailService {
     @Value("${resend.api.key}")
     private String resendApiKey;
 
+    // This method is kept for backward compatibility but now uses REST API
     public void sendVerificationEmail(String to, String username, String verificationCode) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(to);
-            message.setSubject("Verify Your Email - Todo App");
-            message.setText(buildVerificationEmailBody(username, verificationCode));
-            
-            mailSender.send(message);
-            log.info("Verification email sent successfully to: {}", to);
-        } catch (Exception e) {
-            log.error("Failed to send verification email to: {}", to, e);
-            throw new RuntimeException("Failed to send verification email", e);
-        }
+        sendVerificationEmailAsync(to, username, verificationCode);
     }
 
     @Async
@@ -55,6 +43,12 @@ public class EmailService {
             
             String emailBody = buildVerificationEmailBody(username, verificationCode);
             
+            // Clean up the email body for JSON - remove newlines and escape quotes properly
+            String cleanEmailBody = emailBody
+                .replace("\n", "\\n")
+                .replace("\"", "\\\"")
+                .replace("\r", "");
+            
             String requestBody = String.format("""
                 {
                     "from": "%s",
@@ -62,7 +56,7 @@ public class EmailService {
                     "subject": "Verify Your Email - Todo App",
                     "text": "%s"
                 }
-                """, fromEmail, to, emailBody.replace("\"", "\\\""));
+                """, fromEmail, to, cleanEmailBody);
             
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
             
@@ -82,14 +76,40 @@ public class EmailService {
 
     public void sendPasswordResetEmail(String to, String username, String resetCode) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(to);
-            message.setSubject("Password Reset - Todo App");
-            message.setText(buildPasswordResetEmailBody(username, resetCode));
+            // Use Resend REST API instead of SMTP
+            String url = "https://api.resend.com/emails";
             
-            mailSender.send(message);
-            log.info("Password reset email sent successfully to: {}", to);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + resendApiKey);
+            
+            String emailBody = buildPasswordResetEmailBody(username, resetCode);
+            
+            // Clean up the email body for JSON
+            String cleanEmailBody = emailBody
+                .replace("\n", "\\n")
+                .replace("\"", "\\\"")
+                .replace("\r", "");
+            
+            String requestBody = String.format("""
+                {
+                    "from": "%s",
+                    "to": ["%s"],
+                    "subject": "Password Reset - Todo App",
+                    "text": "%s"
+                }
+                """, fromEmail, to, cleanEmailBody);
+            
+            HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+            
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Password reset email sent successfully via Resend API to: {}", to);
+            } else {
+                log.error("Failed to send password reset email via Resend API. Status: {}, Response: {}", 
+                    response.getStatusCode(), response.getBody());
+            }
         } catch (Exception e) {
             log.error("Failed to send password reset email to: {}", to, e);
             throw new RuntimeException("Failed to send password reset email", e);
@@ -98,14 +118,40 @@ public class EmailService {
 
     public void sendTodoReminderEmail(String to, String username, String todoTitle, String dueDateTime) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(to);
-            message.setSubject("Todo Reminder - " + todoTitle);
-            message.setText(buildTodoReminderEmailBody(username, todoTitle, dueDateTime));
+            // Use Resend REST API instead of SMTP
+            String url = "https://api.resend.com/emails";
             
-            mailSender.send(message);
-            log.info("Todo reminder email sent successfully to: {}", to);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + resendApiKey);
+            
+            String emailBody = buildTodoReminderEmailBody(username, todoTitle, dueDateTime);
+            
+            // Clean up the email body for JSON
+            String cleanEmailBody = emailBody
+                .replace("\n", "\\n")
+                .replace("\"", "\\\"")
+                .replace("\r", "");
+            
+            String requestBody = String.format("""
+                {
+                    "from": "%s",
+                    "to": ["%s"],
+                    "subject": "Todo Reminder - %s",
+                    "text": "%s"
+                }
+                """, fromEmail, to, todoTitle, cleanEmailBody);
+            
+            HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
+            
+            ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+            
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Todo reminder email sent successfully via Resend API to: {}", to);
+            } else {
+                log.error("Failed to send todo reminder email via Resend API. Status: {}, Response: {}", 
+                    response.getStatusCode(), response.getBody());
+            }
         } catch (Exception e) {
             log.error("Failed to send todo reminder email to: {}", to, e);
             throw new RuntimeException("Failed to send todo reminder email", e);
