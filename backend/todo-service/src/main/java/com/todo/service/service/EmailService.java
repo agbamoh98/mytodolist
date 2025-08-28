@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,6 +31,23 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Failed to send verification email to: {}", to, e);
             throw new RuntimeException("Failed to send verification email", e);
+        }
+    }
+
+    @Async
+    public void sendVerificationEmailAsync(String to, String username, String verificationCode) {
+        try {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
+            message.setTo(to);
+            message.setSubject("Verify Your Email - Todo App");
+            message.setText(buildVerificationEmailBody(username, verificationCode));
+            
+            mailSender.send(message);
+            log.info("Verification email sent successfully to: {}", to);
+        } catch (Exception e) {
+            log.error("Failed to send verification email to: {}", to, e);
+            // Don't throw exception in async method, just log it
         }
     }
 

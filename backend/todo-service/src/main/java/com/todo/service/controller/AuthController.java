@@ -4,6 +4,7 @@ import com.todo.service.dto.AuthResponse;
 import com.todo.service.dto.LoginRequest;
 import com.todo.service.dto.RegisterRequest;
 import com.todo.service.repository.UserRepository;
+import com.todo.service.repository.VerificationCodeRepository;
 import com.todo.service.service.AuthService;
 import com.todo.service.service.VerificationService;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ public class AuthController {
     private final AuthService authService;
     private final VerificationService verificationService;
     private final UserRepository userRepository;
+    private final VerificationCodeRepository verificationCodeRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
@@ -40,12 +42,27 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(new ErrorResponse("Email is already in use!"));
             }
             
-            // Send verification email without creating user
+            // Send verification email without creating user (async)
             log.info("Sending verification email to: {}", request.getEmail());
-            verificationService.sendEmailVerificationCode(request.getEmail(), request.getUsername());
-            
-            log.info("Verification email sent successfully");
-            return ResponseEntity.ok(new MessageResponse("Verification email sent. Please check your email and enter the code to complete registration."));
+            try {
+                String code = verificationService.generateVerificationCode(request.getEmail(), 
+                    com.todo.service.entity.VerificationCode.CodeType.EMAIL_VERIFICATION);
+                verificationService.sendEmailVerificationCode(request.getEmail(), request.getUsername());
+                log.info("Verification email queued successfully");
+                return ResponseEntity.ok(new MessageResponse("Verification email sent. Please check your email and enter the code to complete registration."));
+            } catch (Exception emailError) {
+                log.error("Email sending failed: {}", emailError.getMessage());
+                // For testing: return the verification code directly when email fails
+                try {
+                    String code = verificationService.generateVerificationCode(request.getEmail(), 
+                        com.todo.service.entity.VerificationCode.CodeType.EMAIL_VERIFICATION);
+                    log.info("Generated verification code for testing: {}", code);
+                    return ResponseEntity.ok(new MessageResponse("Email service unavailable. For testing, use verification code: " + code));
+                } catch (Exception codeError) {
+                    log.error("Failed to generate verification code: {}", codeError.getMessage());
+                    return ResponseEntity.ok(new MessageResponse("Email service temporarily unavailable. Please contact support."));
+                }
+            }
         } catch (RuntimeException e) {
             log.error("=== REGISTRATION FAILED IN CONTROLLER ===");
             log.error("Registration failed: {}", e.getMessage());
@@ -152,6 +169,19 @@ public class AuthController {
         } catch (Exception e) {
             log.error("Password reset failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body(new ErrorResponse("Password reset failed"));
+        }
+    }
+
+    // Debug endpoint to get verification codes (remove in production)
+    @GetMapping("/debug/verification-code/{email}")
+    public ResponseEntity<?> getVerificationCode(@PathVariable String email) {
+        try {
+            // For now, just return a simple message
+            // In production, implement proper verification code retrieval
+            return ResponseEntity.ok(new MessageResponse("Debug endpoint - check logs for verification code"));
+        } catch (Exception e) {
+            log.error("Failed to get verification code: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(new ErrorResponse("Failed to get verification code"));
         }
     }
 

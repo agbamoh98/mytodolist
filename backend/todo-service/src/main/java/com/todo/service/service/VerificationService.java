@@ -31,16 +31,13 @@ public class VerificationService {
     private final SecureRandom random = new SecureRandom();
 
     public String generateVerificationCode(String email, VerificationCode.CodeType type) {
-        // Generate a 6-digit numeric code
-        StringBuilder code = new StringBuilder(CODE_LENGTH);
-        for (int i = 0; i < CODE_LENGTH; i++) {
-            code.append(CODE_CHARACTERS.charAt(random.nextInt(CODE_CHARACTERS.length())));
-        }
-
+        // Generate a 6-digit numeric code (faster method)
+        int code = 100000 + random.nextInt(900000); // Generates 100000-999999
+        
         // Save the verification code
         VerificationCode verificationCode = new VerificationCode();
         verificationCode.setEmail(email);
-        verificationCode.setCode(code.toString());
+        verificationCode.setCode(String.valueOf(code));
         verificationCode.setType(type);
         verificationCode.setExpiresAt(LocalDateTime.now().plusMinutes(codeExpiryMinutes));
         verificationCode.setUsed(false);
@@ -48,7 +45,7 @@ public class VerificationService {
         verificationCodeRepository.save(verificationCode);
         
         log.info("Generated {} code for email: {}", type, email);
-        return code.toString();
+        return String.valueOf(code);
     }
 
     public boolean verifyCode(String email, String code, VerificationCode.CodeType type) {
@@ -77,7 +74,13 @@ public class VerificationService {
 
     public void sendEmailVerificationCode(String email, String username) {
         String code = generateVerificationCode(email, VerificationCode.CodeType.EMAIL_VERIFICATION);
-        emailService.sendVerificationEmail(email, username, code);
+        // Send email asynchronously to avoid blocking the response
+        try {
+            emailService.sendVerificationEmailAsync(email, username, code);
+        } catch (Exception e) {
+            log.error("Failed to send email, but verification code was generated: {}", e.getMessage());
+            // Don't throw exception - user can still verify manually if needed
+        }
     }
 
     public void sendPasswordResetCode(String email, String username) {

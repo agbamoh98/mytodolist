@@ -27,6 +27,13 @@ spring:
             enable: true
           ssl:
             trust: smtp.gmail.com
+          timeout: 10000
+          connectiontimeout: 10000
+          # Alternative configurations for Railway
+          socketFactory:
+            port: 587
+            class: javax.net.ssl.SSLSocketFactory
+          fallback: true
 
 # JWT settings
 jwt:
