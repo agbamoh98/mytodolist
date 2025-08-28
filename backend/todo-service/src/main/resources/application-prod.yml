@@ -15,25 +15,21 @@ spring:
         format_sql: true
   
   mail:
-    host: smtp.gmail.com
+    # Resend configuration (easier setup, better free tier)
+    host: smtp.resend.com
     port: 587
-    username: agbamoh@gmail.com
-    password: yqorlytumeirkehi
+    username: resend
+    password: ${RESEND_API_KEY:your-resend-api-key}
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
-          ssl:
-            trust: smtp.gmail.com
           timeout: 10000
           connectiontimeout: 10000
-          # Alternative configurations for Railway
-          socketFactory:
-            port: 587
-            class: javax.net.ssl.SSLSocketFactory
-          fallback: true
+          ssl:
+            trust: smtp.resend.com
 
 # JWT settings
 jwt:
@@ -42,7 +38,7 @@ jwt:
 
 app:
   email:
-    from: agbamoh@gmail.com
+    from: ${RESEND_FROM_EMAIL:your-email@gmail.com}
     verification:
       code-expiry-minutes: 15
     reminder:
