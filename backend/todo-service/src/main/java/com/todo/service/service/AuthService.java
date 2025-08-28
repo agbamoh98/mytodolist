@@ -142,7 +142,10 @@ public class AuthService {
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
         
+        // Enable the user account after password reset
+        user.setEnabled(true);
+        
         userRepository.save(user);
-        log.info("Password reset successfully for user: {}", user.getUsername());
+        log.info("Password reset successfully for user: {} and account enabled", user.getUsername());
     }
 }
