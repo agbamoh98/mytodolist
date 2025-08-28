@@ -28,6 +28,11 @@ spring:
           ssl:
             trust: smtp.gmail.com
 
+# JWT settings
+jwt:
+  secret: ${JWT_SECRET:myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong}
+  expiration: ${JWT_EXPIRATION:86400000}
+
 app:
   email:
     from: agbamoh@gmail.com

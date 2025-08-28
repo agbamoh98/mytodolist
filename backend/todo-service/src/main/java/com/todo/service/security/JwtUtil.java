@@ -20,11 +20,11 @@ public class JwtUtil {
     @Value("${jwt.expiration:86400000}") // 24 hours in milliseconds
     private Long expiration;
 
-    // Generate a secure key for JWT signing
-    private final SecretKey signingKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    @Value("${jwt.secret:myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong}")
+    private String secret;
 
     private SecretKey getSigningKey() {
-        return signingKey;
+        return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String extractUsername(String token) {

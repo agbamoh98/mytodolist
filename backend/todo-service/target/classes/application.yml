@@ -34,6 +34,11 @@ logging:
     com.todo: DEBUG
     org.springframework.web: DEBUG
 
+# JWT settings
+jwt:
+  secret: ${JWT_SECRET:myVeryLongSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong}
+  expiration: ${JWT_EXPIRATION:86400000}
+
 # Email settings
 app:
   email:

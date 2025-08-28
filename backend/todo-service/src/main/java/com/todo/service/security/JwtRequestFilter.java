@@ -31,12 +31,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, 
                                   FilterChain chain) throws ServletException, IOException {
         
-        // Skip JWT processing for authentication endpoints
-        String requestURI = request.getRequestURI();
-        if (requestURI.startsWith("/api/auth/")) {
-            chain.doFilter(request, response);
-            return;
-        }
+        try {
+            // Skip JWT processing for authentication endpoints
+            String requestURI = request.getRequestURI();
+            if (requestURI.startsWith("/api/auth/")) {
+                chain.doFilter(request, response);
+                return;
+            }
         
         final String requestTokenHeader = request.getHeader("Authorization");
         
@@ -74,6 +75,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 // Set authentication in security context
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
+        } catch (Exception e) {
+            log.error("Error in JWT filter: {}", e.getMessage());
+            // Continue with the filter chain even if JWT processing fails
         }
         chain.doFilter(request, response);
     }
