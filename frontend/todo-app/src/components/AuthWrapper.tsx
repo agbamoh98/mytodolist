@@ -51,7 +51,7 @@ const AuthWrapper: React.FC = () => {
                 setVerificationData({
                   email: userData.email,
                   username: userData.username,
-                  registerData: userData
+                  registerData: userData.registerData
                 })
                 setCurrentView('emailVerification')
               }}

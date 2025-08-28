@@ -40,7 +40,13 @@ const Register: React.FC<RegisterProps> = ({ onRegister, onSwitchToLogin }) => {
       onRegister({
         email: formData.email,
         username: formData.username,
-        ...response.data
+        registerData: {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName
+        }
       })
       
       // Clear the form
