@@ -47,7 +47,7 @@ resend:
 
 app:
   email:
-    from: ${RESEND_FROM_EMAIL:your-email@gmail.com}
+    from: "onboarding@resend.dev"
     verification:
       code-expiry-minutes: 15
     reminder:
