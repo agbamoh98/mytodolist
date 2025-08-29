@@ -74,7 +74,12 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "resettingPassword": "Resetting Password...",
     "passwordResetSuccess": "Password reset successfully!",
-    "passwordResetError": "Failed to reset password"
+    "passwordResetError": "Failed to reset password",
+    "sessionTimeoutWarning": "Session Timeout Warning",
+    "youWillBeLoggedOutIn": "You will be logged out in",
+    "seconds": "seconds",
+    "clickAnywhereToExtend": "Click anywhere or use the button below to extend your session",
+    "extendSession": "Extend Session"
   },
   "todos": {
     "title": "My Todo Management App",

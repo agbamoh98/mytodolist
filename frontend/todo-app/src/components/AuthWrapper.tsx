@@ -8,6 +8,7 @@ import ForgotPassword from './ForgotPassword'
 import PasswordReset from './PasswordReset'
 import App from '../App'
 import Sidebar from './Sidebar'
+import LogoutWarning from './LogoutWarning'
 
 type AuthView = 'login' | 'register' | 'emailVerification' | 'forgotPassword' | 'passwordReset'
 
@@ -27,6 +28,9 @@ const AuthWrapper: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Logout Warning */}
+      <LogoutWarning />
+      
       {/* Sidebar */}
       <Sidebar />
       

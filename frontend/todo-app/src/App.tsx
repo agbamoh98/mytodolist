@@ -4,6 +4,7 @@ import { useAuth } from './context/AuthContext'
 import { useLanguage } from './context/LanguageContext'
 import { useTranslation } from 'react-i18next'
 import Sidebar from './components/Sidebar'
+import LogoutWarning from './components/LogoutWarning'
 
 // Your backend API URL
 const API_BASE_URL = 'https://mytodolist-production.up.railway.app/api/todos'
@@ -200,6 +201,9 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Logout Warning */}
+      <LogoutWarning />
+      
       {/* Sidebar */}
       <Sidebar />
       

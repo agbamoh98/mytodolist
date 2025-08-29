@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef, type ReactNode } from 'react'
 
 interface User {
   id: number
@@ -14,6 +14,9 @@ interface AuthContextType {
   login: (userData: any) => void
   logout: () => void
   isAuthenticated: boolean
+  extendSession: () => void
+  timeUntilLogout: number | null
+  showLogoutWarning: boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -25,6 +28,94 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null)
   const [token, setToken] = useState<string | null>(null)
+  
+  // Auto-logout timeout configuration
+  const INACTIVITY_TIMEOUT = 30 * 60 * 1000 // 30 minutes in milliseconds
+  const WARNING_TIME = 5 * 60 * 1000 // 5 minutes warning before logout
+  
+  // Timeout state
+  const [timeUntilLogout, setTimeUntilLogout] = useState<number | null>(null)
+  const [showLogoutWarning, setShowLogoutWarning] = useState(false)
+  
+  // Refs for timers
+  const logoutTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const warningTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const activityTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Activity detection function
+  const resetActivityTimer = useCallback(() => {
+    if (!isAuthenticated) return
+    
+    // Clear existing timers
+    if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current)
+    if (warningTimerRef.current) clearTimeout(warningTimerRef.current)
+    if (activityTimerRef.current) clearTimeout(activityTimerRef.current)
+    
+    // Reset warning state
+    setShowLogoutWarning(false)
+    setTimeUntilLogout(null)
+    
+    // Set new activity timer
+    activityTimerRef.current = setTimeout(() => {
+      // User has been inactive, start warning countdown
+      setShowLogoutWarning(true)
+      setTimeUntilLogout(WARNING_TIME / 1000) // Convert to seconds
+      
+      // Start countdown
+      const countdownInterval = setInterval(() => {
+        setTimeUntilLogout(prev => {
+          if (prev === null || prev <= 1) {
+            clearInterval(countdownInterval)
+            logout() // Auto-logout
+            return null
+          }
+          return prev - 1
+        })
+      }, 1000)
+      
+      // Set logout timer
+      logoutTimerRef.current = setTimeout(() => {
+        clearInterval(countdownInterval)
+        logout()
+      }, WARNING_TIME)
+      
+    }, INACTIVITY_TIMEOUT - WARNING_TIME)
+  }, [isAuthenticated])
+
+  // Extend session function
+  const extendSession = useCallback(() => {
+    if (isAuthenticated) {
+      resetActivityTimer()
+    }
+  }, [isAuthenticated, resetActivityTimer])
+
+  // Activity event handlers
+  useEffect(() => {
+    if (!isAuthenticated) return
+
+    const handleActivity = () => {
+      resetActivityTimer()
+    }
+
+    // Add activity event listeners
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click']
+    events.forEach(event => {
+      document.addEventListener(event, handleActivity, { passive: true })
+    })
+
+    // Start activity timer
+    resetActivityTimer()
+
+    // Cleanup
+    return () => {
+      events.forEach(event => {
+        document.removeEventListener(event, handleActivity)
+      })
+      if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current)
+      if (warningTimerRef.current) clearTimeout(warningTimerRef.current)
+      if (activityTimerRef.current) clearTimeout(activityTimerRef.current)
+    }
+  }, [isAuthenticated, resetActivityTimer])
 
   // Check for existing auth on app load
   useEffect(() => {
@@ -64,6 +155,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     console.log('Logging out user:', user?.username)
+    
+    // Clear timers
+    if (logoutTimerRef.current) clearTimeout(logoutTimerRef.current)
+    if (warningTimerRef.current) clearTimeout(warningTimerRef.current)
+    if (activityTimerRef.current) clearTimeout(activityTimerRef.current)
+    
+    // Reset timeout state
+    setShowLogoutWarning(false)
+    setTimeUntilLogout(null)
+    
     setUser(null)
     setToken(null)
     
@@ -79,7 +180,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     token,
     login,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    extendSession,
+    timeUntilLogout,
+    showLogoutWarning
   }
 
   return (
