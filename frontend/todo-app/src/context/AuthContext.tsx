@@ -37,10 +37,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [timeUntilLogout, setTimeUntilLogout] = useState<number | null>(null)
   const [showLogoutWarning, setShowLogoutWarning] = useState(false)
   
-  // Refs for timers
-  const logoutTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const warningTimerRef = useRef<NodeJS.Timeout | null>(null)
-  const activityTimerRef = useRef<NodeJS.Timeout | null>(null)
+  // Refs for timers - use number for browser compatibility
+  const logoutTimerRef = useRef<number | null>(null)
+  const warningTimerRef = useRef<number | null>(null)
+  const activityTimerRef = useRef<number | null>(null)
+
+  // Calculate authentication status
+  const isAuthenticated = !!user && !!token
 
   // Activity detection function
   const resetActivityTimer = useCallback(() => {
@@ -172,8 +175,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
   }
-
-  const isAuthenticated = !!user && !!token
 
   const value = {
     user,
